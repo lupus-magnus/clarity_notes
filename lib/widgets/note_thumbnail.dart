@@ -16,22 +16,35 @@ class NoteThumbnail extends StatelessWidget {
             color: Color.fromARGB(255, 51, 51, 51),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "7 de setembro de 2023",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                "The Mango Beer",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    height: 0.95),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8),
                 child: Text(
-                  "Lorem ipsum bla bla bla bla bla",
+                  "Another Amarillo Pale Ale bestows great honor upon a bombed bull ice, or the coors light inside another ice house recognizes a hesitantly tooled bar stool. When another almost frightened pit viper earns enough for a beer, a resplendent Ellis Island IPA prays. When the miller light inside a Guiness meditates, the Dos Equis inside a Fraoch Heather Ale ruminates. When some Corona dies, the polar bear beer from a lager beams with joy. ",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300,
-                  ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 13,
+                      height: 0.9),
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
+              ),
+              Text(
+                "15-SET-2023",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600),
               )
             ],
           )),

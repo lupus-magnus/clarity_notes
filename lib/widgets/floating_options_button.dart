@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:hello_world/views/home_view.dart';
 import 'package:hello_world/views/note_view.dart';
 
 class FloatingOptionsButton extends StatefulWidget {
