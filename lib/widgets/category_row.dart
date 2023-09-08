@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/widgets/note_thumbnail.dart';
 
 // const NoteThumb.color = RGBA(255,51,51,51)
 
 class CategoryRow extends StatelessWidget {
   final String name;
+  final int marginTop;
 
-  const CategoryRow({super.key, required this.name});
+  const CategoryRow({super.key, required this.name, this.marginTop = 64});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 64.0),
+        padding: EdgeInsets.only(top: marginTop.toDouble()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               name,
               style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 24,
                   fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w700),
             ),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 16.0, 0, 16.0),
@@ -27,39 +29,9 @@ class CategoryRow extends StatelessWidget {
                   height: 128,
                   child: ListView(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Container(
-                            width: 128,
-                            height: 128,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                              color: Color.fromARGB(255, 51, 51, 51),
-                            )),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Container(
-                            width: 128,
-                            height: 128,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                              color: Color.fromARGB(255, 51, 51, 51),
-                            )),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Container(
-                            width: 128,
-                            height: 128,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                              color: Color.fromARGB(255, 51, 51, 51),
-                            )),
-                      )
+                      NoteThumbnail(),
+                      NoteThumbnail(),
+                      NoteThumbnail()
                     ],
                     scrollDirection: Axis.horizontal,
                   ),
