@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/models/note.dart';
 
 class NoteThumbnail extends StatelessWidget {
-  const NoteThumbnail({super.key});
+  final Note note;
+  const NoteThumbnail({super.key, required this.note});
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +21,19 @@ class NoteThumbnail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "The Mango Beer",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    height: 0.95),
-              ),
+              if (note.title != null) ...[
+                Text(
+                  "${note.title!}",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      height: 0.95),
+                )
+              ],
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text(
-                  "Another Amarillo Pale Ale bestows great honor upon a bombed bull ice, or the coors light inside another ice house recognizes a hesitantly tooled bar stool. When another almost frightened pit viper earns enough for a beer, a resplendent Ellis Island IPA prays. When the miller light inside a Guiness meditates, the Dos Equis inside a Fraoch Heather Ale ruminates. When some Corona dies, the polar bear beer from a lager beams with joy. ",
+                  note.body,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -50,7 +54,8 @@ class NoteThumbnail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "15 SET 2023",
+                    note.getFormattedDate(),
+                    // note.createdAt.yMd().toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

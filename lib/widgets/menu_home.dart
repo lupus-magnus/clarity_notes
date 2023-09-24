@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world/providers/menu_provider.dart';
-import 'package:hello_world/views/note_view.dart';
+import 'package:hello_world/providers/menu.dart';
+import 'package:hello_world/screens/note_view.dart';
 import 'package:provider/provider.dart';
 
 class MenuHome extends StatelessWidget {

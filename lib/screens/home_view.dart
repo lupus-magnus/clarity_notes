@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world/providers/menu_provider.dart';
+import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/widgets/index.dart';
 import 'package:provider/provider.dart';
 
@@ -18,13 +18,18 @@ class HomeView extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Align(
                     alignment: AlignmentDirectional.topStart,
-                    child: ListView(
-                      children: const [
-                        CategoryRow(name: "Ideias de apps", marginTop: 0),
-                        CategoryRow(name: "Minhas músicas"),
-                        CategoryRow(name: "Anotações da semana"),
-                        SizedBox(height: 64)
-                      ],
+                    child: Consumer<UserDataProvider>(
+                      builder: (BuildContext context, UserDataProvider data,
+                          Widget? widget) {
+                        return ListView.builder(
+                            itemCount: data.getCategories.length,
+                            itemBuilder: ((context, index) {
+                              return CategoryRow(
+                                data: data.getCategories[index],
+                                marginTop: index == 0 ? 0 : 64,
+                              );
+                            }));
+                      },
                     )),
               ),
             )

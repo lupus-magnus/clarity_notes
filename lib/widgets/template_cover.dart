@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world/views/home_view.dart';
+import 'package:hello_world/screens/home_view.dart';
 
 class TemplateCover extends StatelessWidget {
   final bool renderBacklink;
