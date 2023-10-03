@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hello_world/models/note.dart';
+import 'package:hello_world/screens/write_view.dart';
 
-import 'package:hello_world/widgets/floating_options_button.dart';
 import 'package:hello_world/widgets/template_cover.dart';
 
 class NoteView extends StatelessWidget {
-  const NoteView({super.key});
+  final Note note;
+  final String categoryId;
+
+  const NoteView({super.key, required this.note, required this.categoryId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class NoteView extends StatelessWidget {
           ),
           Expanded(
               child: ListView(
-            children: const [
+            children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 64),
                   child: Column(
@@ -30,32 +35,73 @@ class NoteView extends StatelessWidget {
                             size: 22,
                           ),
                           Text(
-                            "15SET2023 | Sáb. 14:23",
+                            // "15SET2023 | Sáb. 14:23",
+                            note.getFormattedDateTime(),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 14),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 48,
-                      ),
+                      )
+                          .animate()
+                          .fade(
+                              delay: Duration(milliseconds: 600),
+                              begin: 0,
+                              end: 1)
+                          .slideY(
+                            duration: Duration(milliseconds: 600),
+                            begin: -2,
+                            end: 0,
+                          ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 16, 48, 16),
+                        child: Divider(
+                          color: Colors.grey,
+                        ),
+                      )
+                          .animate()
+                          .scaleX(
+                              delay: Duration(milliseconds: 900),
+                              begin: 0,
+                              end: 1.2,
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.easeInOut)
+                          .then()
+                        ..scaleX(
+                            begin: 1,
+                            end: 0.7,
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.easeInOut),
                       Text(
-                        "Meu primeiro título",
-                        style: TextStyle(
+                        note.title ?? '',
+                        style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                         textAlign: TextAlign.left,
-                      ),
-                      SizedBox(
+                      )
+                          .animate()
+                          .fadeIn(
+                              delay: Duration(milliseconds: 2000),
+                              begin: 0,
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.easeInOut)
+                          .moveX(begin: -8, end: 0),
+                      const SizedBox(
                         height: 24,
                       ),
                       Text(
-                        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem magna, rhoncus a mi in, dictum viverra nulla. Mauris sit amet risus magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc sed mattis urna. Quisque molestie aliquam est in accumsan. Aenean ac maximus orci, sed tincidunt leo. Nunc efficitur tristique lectus, ac tempus diam accumsan ut. Phasellus vel odio quis risus egestas ultricies nec sit amet lorem. Integer a pulvinar metus. Proin et eros felis. Etiam ac sagittis massa. Quisque ac mi in ex sollicitudin facilisis. Pellentesque tristique pretium magna sodales feugiat. Donec vel orci nec enim scelerisque cursus non non elit. Donec placerat est nec ex suscipit, a faucibus augue imperdiet. Suspendisse vitae feugiat urna.In mollis molestie malesuada.\n\nNullam ornare feugiat dui, non sollicitudin arcu consectetur vitae. Curabitur id dui finibus, consectetur orci sit amet, consequat ligula. Proin consequat ipsum ex, viverra accumsan nisi congue et. Ut massa quam, venenatis id dolor eget, cursus laoreet lorem. Suspendisse vel facilisis lorem. Pellentesque ullamcorper velit vel neque ornare, quis euismod velit ornare. Aliquam nec est ut nisl tempus sagittis ac et neque. Sed ligula sem, dapibus a lectus eget, egestas accumsan neque. Donec nec vulputate nunc. Phasellus laoreet sit amet metus nec pretium. Sed ultricies mollis mi sed suscipit. Nulla accumsan, nunc et efficitur tincidunt, arcu lectus luctus libero, at volutpat eros nulla nec mi. Integer purus augue, scelerisque ac convallis nec, finibus sit amet urna. Aliquam erat volutpat. Suspendisse dignissim at quam id pellentesque. ",
+                        note.body,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
                         ),
-                      ),
+                      )
+                          .animate()
+                          .fadeIn(
+                              delay: Duration(milliseconds: 1500),
+                              begin: 0,
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.easeInOut)
+                          .moveY(begin: 24, end: 0),
                     ],
                   )),
               SizedBox(height: 64)
@@ -63,7 +109,25 @@ class NoteView extends StatelessWidget {
           ))
         ],
       ),
-      floatingActionButton: const FloatingOptionsButton(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => WriteView(
+                note: note,
+                categoryId: categoryId,
+              ),
+            ),
+          );
+        },
+        shape: const CircleBorder(eccentricity: 0.0),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        child: const Icon(
+          Icons.edit,
+          size: 40,
+        ),
+      ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

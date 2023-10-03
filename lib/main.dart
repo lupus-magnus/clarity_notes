@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/providers/menu.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  Animate.restartOnHotReload = true;
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(

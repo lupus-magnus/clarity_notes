@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/providers/menu.dart';
 import 'package:hello_world/screens/note_view.dart';
+import 'package:hello_world/screens/write_view.dart';
 import 'package:provider/provider.dart';
 
 class MenuHome extends StatelessWidget {
@@ -56,11 +57,11 @@ class MenuHome extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const NoteView(),
-                  ),
-                );
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => const WriteView(),
+                //   ),
+                // );
               },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,

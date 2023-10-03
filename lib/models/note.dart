@@ -28,4 +28,11 @@ class Note {
         "${createdAt.day} ${longFormatMonths[createdAt.month]!} ${createdAt.year}";
     return formatedDate;
   }
+
+  String getFormattedDateTime() {
+    String result =
+        "${getFormattedDate()} | ${createdAt.hour}:${createdAt.minute}";
+
+    return result;
+  }
 }

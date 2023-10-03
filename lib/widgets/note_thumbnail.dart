@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
-import 'package:hello_world/screens/write_view.dart';
+import 'package:hello_world/screens/note_view.dart';
+
 import 'package:provider/provider.dart';
 
 class NoteThumbnail extends StatelessWidget {
   final Note note;
   final String categoryId;
+  final int animDelay;
   const NoteThumbnail(
-      {super.key, required this.note, required this.categoryId});
+      {super.key,
+      required this.note,
+      required this.categoryId,
+      required this.animDelay});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +27,9 @@ class NoteThumbnail extends StatelessWidget {
         onTap: () => {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => WriteView(
-                categoryId: categoryId,
+              builder: (context) => NoteView(
                 note: note,
+                categoryId: categoryId,
               ),
             ),
           )
@@ -125,7 +131,11 @@ class NoteThumbnail extends StatelessWidget {
                 ],
               )),
         ),
-      ),
+      ).animate(delay: Duration(milliseconds: 900 + animDelay)).then().shake(
+          hz: 1,
+          rotation: .03,
+          duration: const Duration(milliseconds: 2000),
+          curve: Curves.ease),
     );
   }
 }

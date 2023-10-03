@@ -54,6 +54,7 @@ class HomeView extends StatelessWidget {
                               itemCount: data.getCategories.length,
                               itemBuilder: ((context, index) {
                                 return CategoryRow(
+                                  animDelay: 600 * index,
                                   data: data.getCategories[index],
                                   marginTop: index == 0 ? 0 : 64,
                                 );

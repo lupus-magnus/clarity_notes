@@ -19,6 +19,7 @@ class MenuCreateCategory extends StatelessWidget {
       if (categoryIsValid) {
         dataProvider.addCategory(newCategoryValue);
       }
+      menuProvider.handleChangeMenu(Menu.main);
       Navigator.pop(context);
     }
 
