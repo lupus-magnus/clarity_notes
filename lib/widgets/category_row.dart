@@ -109,7 +109,8 @@ class CategoryRow extends StatelessWidget {
                                 height: 128,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromARGB(255, 51, 51, 51),
+                                      color:
+                                          const Color.fromARGB(255, 51, 51, 51),
                                     ),
                                     borderRadius: BorderRadius.circular(16)),
                                 child: const Center(

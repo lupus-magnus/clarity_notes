@@ -52,7 +52,7 @@ class TemplateCover extends StatelessWidget {
                       child: Container(
                         width: 80,
                         height: 80,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
@@ -72,7 +72,7 @@ class TemplateCover extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back,
                       size: 28,
                     ),

@@ -71,7 +71,7 @@ class NoteThumbnail extends StatelessWidget {
           child: Ink(
               width: 128,
               height: 128,
-              padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 color: Color.fromARGB(255, 51, 51, 51),
@@ -82,19 +82,19 @@ class NoteThumbnail extends StatelessWidget {
                 children: [
                   if (note.title != null) ...[
                     Text(
-                      "${note.title!}",
+                      note.title!,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           height: 0.95),
                     )
                   ],
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     child: Text(
                       note.body,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -105,7 +105,7 @@ class NoteThumbnail extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 8),
                         child: Icon(
                           Icons.calendar_month_outlined,
@@ -115,7 +115,7 @@ class NoteThumbnail extends StatelessWidget {
                       ),
                       Text(
                         note.getFormattedDate(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w300),
