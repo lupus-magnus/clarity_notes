@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hello_world/widgets/floating_options_button.dart';
 import 'package:hello_world/widgets/template_cover.dart';
 
@@ -16,7 +16,7 @@ class NoteView extends StatelessWidget {
           ),
           Expanded(
               child: ListView(
-            children: [
+            children: const [
               Padding(
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 64),
                   child: Column(
