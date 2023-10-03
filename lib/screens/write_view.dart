@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world/models/category.dart';
+
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
@@ -8,13 +8,16 @@ import 'package:hello_world/widgets/template_cover.dart';
 import 'package:provider/provider.dart';
 
 class WriteView extends StatelessWidget {
-  final Category noteCategory;
-  const WriteView({super.key, required this.noteCategory});
+  final String categoryId;
+  final Note? note;
+  const WriteView({super.key, required this.categoryId, this.note});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
-    TextEditingController bodyController = TextEditingController();
+    TextEditingController titleController =
+        TextEditingController(text: note?.title ?? '');
+    TextEditingController bodyController =
+        TextEditingController(text: note?.body ?? '');
 
     return Scaffold(
         body: Column(
@@ -26,30 +29,30 @@ class WriteView extends StatelessWidget {
                 child: ListView(
               children: [
                 Padding(
-                    padding: EdgeInsets.fromLTRB(16, 0, 16, 64),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 48,
                         ),
                         TextField(
                           controller: titleController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Seu titulo aqui',
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 20),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextField(
                           controller: bodyController,
                           maxLines: null,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Pode escrever sem medo...',
                           ),
@@ -57,7 +60,7 @@ class WriteView extends StatelessWidget {
                         ),
                       ],
                     )),
-                SizedBox(height: 64)
+                const SizedBox(height: 64)
               ],
             ))
           ],
@@ -66,25 +69,31 @@ class WriteView extends StatelessWidget {
           onPressed: () {
             UserDataProvider dataProvider =
                 Provider.of<UserDataProvider>(context, listen: false);
-            dataProvider.addNoteToCategory(
-                categoryId: noteCategory.id,
-                newNote: Note(
-                    body: bodyController.text, title: titleController.text));
+            if (note == null) {
+              dataProvider.addNoteToCategory(
+                  categoryId: categoryId,
+                  newNote: Note(
+                      body: bodyController.text, title: titleController.text));
+            } else {
+              dataProvider.updateNote(
+                  noteId: note!.id,
+                  categoryId: categoryId,
+                  newTitle: titleController.text,
+                  newBody: bodyController.text);
+            }
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const HomeView(),
               ),
             );
           },
-          shape: CircleBorder(eccentricity: 0.0),
+          shape: const CircleBorder(eccentricity: 0.0),
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
-          child: Icon(
+          child: const Icon(
             Icons.check,
             size: 40,
           ),
-
-          // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
 }

@@ -21,14 +21,19 @@ class HomeView extends StatelessWidget {
                     child: Consumer<UserDataProvider>(
                       builder: (BuildContext context, UserDataProvider data,
                           Widget? widget) {
-                        return ListView.builder(
-                            itemCount: data.getCategories.length,
-                            itemBuilder: ((context, index) {
-                              return CategoryRow(
-                                data: data.getCategories[index],
-                                marginTop: index == 0 ? 0 : 64,
-                              );
-                            }));
+                        if (data.getCategories.isEmpty) {
+                          return Center(
+                              child: Text("Puxa... tão vazio aqui..."));
+                        } else {
+                          return ListView.builder(
+                              itemCount: data.getCategories.length,
+                              itemBuilder: ((context, index) {
+                                return CategoryRow(
+                                  data: data.getCategories[index],
+                                  marginTop: index == 0 ? 0 : 64,
+                                );
+                              }));
+                        }
                       },
                     )),
               ),
