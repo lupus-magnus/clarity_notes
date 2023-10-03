@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
-import 'package:hello_world/screens/write_view.dart';
+import 'package:hello_world/screens/note_view.dart';
+
 import 'package:provider/provider.dart';
 
 class NoteThumbnail extends StatelessWidget {
   final Note note;
   final String categoryId;
+  final int animDelay;
   const NoteThumbnail(
-      {super.key, required this.note, required this.categoryId});
+      {super.key,
+      required this.note,
+      required this.categoryId,
+      required this.animDelay});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +27,9 @@ class NoteThumbnail extends StatelessWidget {
         onTap: () => {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => WriteView(
-                categoryId: categoryId,
+              builder: (context) => NoteView(
                 note: note,
+                categoryId: categoryId,
               ),
             ),
           )
@@ -71,7 +77,7 @@ class NoteThumbnail extends StatelessWidget {
           child: Ink(
               width: 128,
               height: 128,
-              padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 color: Color.fromARGB(255, 51, 51, 51),
@@ -82,19 +88,19 @@ class NoteThumbnail extends StatelessWidget {
                 children: [
                   if (note.title != null) ...[
                     Text(
-                      "${note.title!}",
+                      note.title!,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           height: 0.95),
                     )
                   ],
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     child: Text(
                       note.body,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -105,7 +111,7 @@ class NoteThumbnail extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 8),
                         child: Icon(
                           Icons.calendar_month_outlined,
@@ -115,7 +121,7 @@ class NoteThumbnail extends StatelessWidget {
                       ),
                       Text(
                         note.getFormattedDate(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w300),
@@ -125,7 +131,11 @@ class NoteThumbnail extends StatelessWidget {
                 ],
               )),
         ),
-      ),
+      ).animate(delay: Duration(milliseconds: 900 + animDelay)).then().shake(
+          hz: 1,
+          rotation: .03,
+          duration: const Duration(milliseconds: 2000),
+          curve: Curves.ease),
     );
   }
 }

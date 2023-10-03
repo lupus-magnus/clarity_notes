@@ -19,6 +19,7 @@ class MenuCreateCategory extends StatelessWidget {
       if (categoryIsValid) {
         dataProvider.addCategory(newCategoryValue);
       }
+      menuProvider.handleChangeMenu(Menu.main);
       Navigator.pop(context);
     }
 
@@ -69,7 +70,7 @@ class MenuCreateCategory extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(8, 8, 4, 8),
+                  margin: const EdgeInsets.fromLTRB(8, 8, 4, 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: const Color.fromARGB(128, 0, 0, 0),

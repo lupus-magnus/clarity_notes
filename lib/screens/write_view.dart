@@ -40,7 +40,7 @@ class WriteView extends StatelessWidget {
                           controller: titleController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Seu titulo aqui',
+                            hintText: 'Insira um titulo aqui (opcional)',
                           ),
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 20),
