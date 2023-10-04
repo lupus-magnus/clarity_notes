@@ -23,36 +23,36 @@ class NoteView extends StatelessWidget {
               child: ListView(
             children: [
               Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 64),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.calendar_month_outlined,
                             size: 22,
                           ),
                           Text(
                             // "15SET2023 | Sáb. 14:23",
                             note.getFormattedDateTime(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 14),
                           ),
                         ],
                       )
                           .animate()
                           .fade(
-                              delay: Duration(milliseconds: 600),
+                              delay: const Duration(milliseconds: 600),
                               begin: 0,
                               end: 1)
                           .slideY(
-                            duration: Duration(milliseconds: 600),
+                            duration: const Duration(milliseconds: 600),
                             begin: -2,
                             end: 0,
                           ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.fromLTRB(48, 16, 48, 16),
                         child: Divider(
                           color: Colors.grey,
@@ -60,16 +60,16 @@ class NoteView extends StatelessWidget {
                       )
                           .animate()
                           .scaleX(
-                              delay: Duration(milliseconds: 900),
+                              delay: const Duration(milliseconds: 900),
                               begin: 0,
                               end: 1.2,
-                              duration: Duration(milliseconds: 600),
+                              duration: const Duration(milliseconds: 600),
                               curve: Curves.easeInOut)
                           .then()
                         ..scaleX(
                             begin: 1,
                             end: 0.7,
-                            duration: Duration(milliseconds: 600),
+                            duration: const Duration(milliseconds: 600),
                             curve: Curves.easeInOut),
                       Text(
                         note.title ?? '',
@@ -79,9 +79,9 @@ class NoteView extends StatelessWidget {
                       )
                           .animate()
                           .fadeIn(
-                              delay: Duration(milliseconds: 2000),
+                              delay: const Duration(milliseconds: 2000),
                               begin: 0,
-                              duration: Duration(milliseconds: 600),
+                              duration: const Duration(milliseconds: 600),
                               curve: Curves.easeInOut)
                           .moveX(begin: -8, end: 0),
                       const SizedBox(
@@ -97,14 +97,14 @@ class NoteView extends StatelessWidget {
                       )
                           .animate()
                           .fadeIn(
-                              delay: Duration(milliseconds: 1500),
+                              delay: const Duration(milliseconds: 1500),
                               begin: 0,
-                              duration: Duration(milliseconds: 600),
+                              duration: const Duration(milliseconds: 600),
                               curve: Curves.easeInOut)
                           .moveY(begin: 24, end: 0),
                     ],
                   )),
-              SizedBox(height: 64)
+              const SizedBox(height: 64)
             ],
           ))
         ],
@@ -128,7 +128,6 @@ class NoteView extends StatelessWidget {
           size: 40,
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
