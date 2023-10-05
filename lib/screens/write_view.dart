@@ -72,14 +72,17 @@ class WriteView extends StatelessWidget {
             if (note == null) {
               dataProvider.addNoteToCategory(
                   categoryId: categoryId,
-                  newNote: Note(
+                  newNote: Note.create(
                       body: bodyController.text, title: titleController.text));
             } else {
               dataProvider.updateNote(
-                  noteId: note!.id,
-                  categoryId: categoryId,
-                  newTitle: titleController.text,
-                  newBody: bodyController.text);
+                updatedNote: Note(
+                    body: bodyController.text,
+                    title: titleController.text,
+                    id: note!.id,
+                    createdAt: note!.createdAt),
+                categoryId: categoryId,
+              );
             }
             Navigator.of(context).push(
               MaterialPageRoute(

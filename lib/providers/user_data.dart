@@ -1,69 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  late List<Category> _categories = [
-    Category(name: "Anotações do Bimestre"),
-    Category(name: "Minhas letras de música")
-  ];
+  late List<Category> categories = [];
   UserDataProvider();
 
   List<Category> get getCategories {
-    return _categories;
+    final categoryBox = Hive.box('category');
+    final categoryMaps = categoryBox.values;
+    final List<Category> updatedCategories = categoryMaps
+        .map((categoryMap) => Category.fromMap(categoryMap))
+        .toList();
+    categories = updatedCategories;
+
+    return updatedCategories;
   }
 
   // Categories CRUD
-  addCategory(String name) {
-    Category newCategory = Category(name: name, notes: []);
-    _categories.insert(0, newCategory);
+  addCategory(String name) async {
+    final Category newCategory = Category.create(name: name);
+    final categoryMap = newCategory.toMap();
+    final categoryBox = await Hive.openBox('category');
+    categoryBox.put(newCategory.id, categoryMap);
+    await categoryBox.flush();
+    final map = categoryBox.get(newCategory.id);
+    final categoryFromBox = Category.fromMap(map);
+
     notifyListeners();
+    return categoryFromBox;
   }
 
-  removeCategory(String categoryId) {
-    try {
-      Category categoryToDelete =
-          _categories.firstWhere((element) => element.id == categoryId);
-      _categories.remove(categoryToDelete);
-      notifyListeners();
-      // ignore: empty_catches
-    } catch (err) {}
+  removeCategory(String categoryId) async {
+    final categoryBox = await Hive.openBox('category');
+    categoryBox.delete(categoryId);
+    notifyListeners();
   }
 
   // Notes CRUD
+  addNoteToCategory({required String categoryId, required Note newNote}) async {
+    final categoryBox = await Hive.openBox('category');
 
-  addNoteToCategory({required String categoryId, required Note newNote}) {
-    Category selectedCategory =
-        _categories.firstWhere((element) => element.id == categoryId);
-    selectedCategory.notes.insert(0, newNote);
+    Map<dynamic, dynamic> mappedNewNote = newNote.toMap();
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+    Map<String, dynamic> updatedCategoryMap = {
+      ...selectedCategoryMap,
+      "notes": [...selectedCategoryMap['notes'], mappedNewNote]
+    };
+
+    categoryBox.put(categoryId, updatedCategoryMap);
     notifyListeners();
   }
 
-  updateNote(
-      {required String noteId,
-      required String categoryId,
-      required String newTitle,
-      required String newBody}) {
-    Note updatedNote = Note(body: newBody, title: newTitle);
-    Category selectedCategory =
-        _categories.firstWhere((category) => category.id == categoryId);
-    Category updatedCategory = Category(
-        name: selectedCategory.name,
-        notes: selectedCategory.notes
-            .map((note) => noteId != note.id ? note : updatedNote)
-            .toList());
-    _categories = _categories
-        .map((category) =>
-            category.id != categoryId ? category : updatedCategory)
+  updateNote({required Note updatedNote, required String categoryId}) async {
+    final categoryBox = await Hive.openBox('category');
+
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+    final notes = selectedCategoryMap['notes'] as List<dynamic>;
+
+    final mappedUpdatedNote = updatedNote.toMap();
+
+    final updatedNotes = notes
+        .map((mappedNote) =>
+            mappedNote['id'] == updatedNote.id ? mappedUpdatedNote : mappedNote)
         .toList();
 
+    Map<String, dynamic> updatedCategoryMap = {
+      ...selectedCategoryMap,
+      "notes": updatedNotes
+    };
+
+    categoryBox.put(categoryId, updatedCategoryMap);
     notifyListeners();
   }
 
-  removeNote({required String noteId, required String categoryId}) {
-    Category selectedCategory =
-        _categories.firstWhere((category) => category.id == categoryId);
-    selectedCategory.notes.removeWhere((note) => note.id == noteId);
+  removeNote({required String noteId, required String categoryId}) async {
+    final categoryBox = await Hive.openBox('category');
+
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+
+    final notes = selectedCategoryMap['notes'] as List<dynamic>;
+    final updatedNotes =
+        notes.where((mappedNote) => mappedNote['id'] != noteId).toList();
+
+    Map<String, dynamic> updatedCategoryMap = {
+      ...selectedCategoryMap,
+      "notes": updatedNotes
+    };
+    categoryBox.put(categoryId, updatedCategoryMap);
+
     notifyListeners();
   }
 }

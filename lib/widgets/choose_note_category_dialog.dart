@@ -12,7 +12,7 @@ class ChooseNoteCategoryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     UserDataProvider dataProvider =
         Provider.of<UserDataProvider>(context, listen: false);
-    List<Category> categories = dataProvider.getCategories;
+    List<Category> categories = dataProvider.categories;
 
     return Dialog(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
