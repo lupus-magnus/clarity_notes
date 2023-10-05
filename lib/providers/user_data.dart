@@ -14,12 +14,20 @@ class UserDataProvider extends ChangeNotifier {
         .map((categoryMap) => Category.fromMap(categoryMap))
         .toList();
 
+    // Sort categories by date
+    categoryInstances.sort((categoryA, categoryB) =>
+        categoryB.updatedAt.compareTo(categoryA.updatedAt));
+
+    // Sort notes by date
     List<Category> categoriesWithNotesByDate =
         categoryInstances.map((category) {
       category.notes
           .sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
       return Category(
-          name: category.name, notes: category.notes, id: category.id);
+          name: category.name,
+          notes: category.notes,
+          id: category.id,
+          updatedAt: category.updatedAt);
     }).toList();
     categories = categoriesWithNotesByDate;
 
@@ -55,6 +63,7 @@ class UserDataProvider extends ChangeNotifier {
         await categoryBox.get(categoryId);
     Map<String, dynamic> updatedCategoryMap = {
       ...selectedCategoryMap,
+      "updatedAt": DateTime.now(),
       "notes": [...selectedCategoryMap['notes'], mappedNewNote]
     };
 

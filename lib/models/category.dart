@@ -5,12 +5,13 @@ class Category {
   final String name;
   final String id;
   final List<Note> notes;
+  final DateTime updatedAt;
 
-  const Category({
-    required this.name,
-    required this.notes,
-    required this.id,
-  });
+  const Category(
+      {required this.name,
+      required this.notes,
+      required this.id,
+      required this.updatedAt});
 
   Map<String, dynamic> toMap() {
     List<Map<String, dynamic>> mappedNotes =
@@ -18,7 +19,8 @@ class Category {
     Map<String, dynamic> category = {
       "id": id,
       "name": name,
-      "notes": mappedNotes
+      "notes": mappedNotes,
+      "updatedAt": updatedAt
     };
 
     return category;
@@ -34,10 +36,10 @@ class Category {
             ))
         .toList();
     Category category = Category(
-      name: obj['name'],
-      id: obj['id'],
-      notes: formattedNotes,
-    );
+        name: obj['name'],
+        id: obj['id'],
+        notes: formattedNotes,
+        updatedAt: obj['updatedAt']);
     return category;
   }
 
@@ -47,6 +49,7 @@ class Category {
       name: name,
       id: id,
       notes: [],
+      updatedAt: DateTime.now(),
     );
     return category;
   }
