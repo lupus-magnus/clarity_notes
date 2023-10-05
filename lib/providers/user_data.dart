@@ -10,12 +10,20 @@ class UserDataProvider extends ChangeNotifier {
   List<Category> get getCategories {
     final categoryBox = Hive.box('category');
     final categoryMaps = categoryBox.values;
-    final List<Category> updatedCategories = categoryMaps
+    final List<Category> categoryInstances = categoryMaps
         .map((categoryMap) => Category.fromMap(categoryMap))
         .toList();
-    categories = updatedCategories;
 
-    return updatedCategories;
+    List<Category> categoriesWithNotesByDate =
+        categoryInstances.map((category) {
+      category.notes
+          .sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
+      return Category(
+          name: category.name, notes: category.notes, id: category.id);
+    }).toList();
+    categories = categoriesWithNotesByDate;
+
+    return categoriesWithNotesByDate;
   }
 
   // Categories CRUD
