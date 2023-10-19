@@ -22,14 +22,6 @@ class TemplateCover extends StatelessWidget {
                   child:
                       Image.asset('assets/images/desk.jpg', fit: BoxFit.cover),
                 ),
-                Positioned.fill(
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Container(
-                      color: const Color(0xFF000000),
-                    ),
-                  ),
-                ),
               ],
             ),
             Align(
@@ -47,8 +39,8 @@ class TemplateCover extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: Padding(
                     padding: const EdgeInsets.only(right: 16.0), // 16),
-                    child: Positioned(
-                      bottom: 20,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
                         width: 80,
                         height: 80,
