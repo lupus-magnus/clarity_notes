@@ -9,7 +9,7 @@ class TemplateCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 160,
+        height: 120,
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
         child: Stack(
@@ -17,10 +17,9 @@ class TemplateCover extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 120,
+                  height: 80,
                   width: MediaQuery.of(context).size.width,
-                  child:
-                      Image.asset('assets/images/desk.jpg', fit: BoxFit.cover),
+                  child: Image.asset('assets/images/bg.png', fit: BoxFit.cover),
                 ),
               ],
             ),
@@ -40,7 +39,7 @@ class TemplateCover extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.only(right: 16.0), // 16),
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 0),
                       child: Container(
                         width: 80,
                         height: 80,

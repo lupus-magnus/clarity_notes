@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/note.dart';
-import 'package:hello_world/screens/write_view.dart';
+import 'package:hello_world/widgets/view_note_options.dart';
 
 import 'package:hello_world/widgets/template_cover.dart';
 
@@ -27,18 +27,64 @@ class NoteView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
-                          const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 22,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.calendar_month_outlined,
+                                    size: 22,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "Criado em",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                note.getFormattedDateTime(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 14),
+                              ),
+                            ],
                           ),
-                          Text(
-                            // "15SET2023 | Sáb. 14:23",
-                            note.getFormattedDateTime(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 14),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit_calendar_outlined,
+                                    size: 22,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "Atualizado em",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                note.getFormattedDateTime(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 14),
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -87,14 +133,16 @@ class NoteView extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      Text(
-                        note.body,
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      )
+                      Container(
+                              constraints: const BoxConstraints(minHeight: 240),
+                              child: Text(
+                                note.body,
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ))
                           .animate()
                           .fadeIn(
                               delay: const Duration(milliseconds: 1500),
@@ -104,29 +152,13 @@ class NoteView extends StatelessWidget {
                           .moveY(begin: 24, end: 0),
                     ],
                   )),
-              const SizedBox(height: 64)
+              NoteViewOptions(
+                categoryId: categoryId,
+                note: note,
+              )
             ],
           ))
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => WriteView(
-                note: note,
-                categoryId: categoryId,
-              ),
-            ),
-          );
-        },
-        shape: const CircleBorder(eccentricity: 0.0),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        child: const Icon(
-          Icons.edit,
-          size: 40,
-        ),
       ),
     );
   }
