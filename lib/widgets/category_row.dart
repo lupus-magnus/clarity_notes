@@ -13,7 +13,7 @@ class CategoryRow extends StatelessWidget {
   const CategoryRow(
       {super.key,
       required this.data,
-      this.marginTop = 64,
+      this.marginTop = 0,
       required this.animDelay});
 
   @override
@@ -35,7 +35,7 @@ class CategoryRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 18,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w700),
                     )),
@@ -88,7 +88,7 @@ class CategoryRow extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 16.0),
+                    padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 16.0),
                     child: SizedBox(
                       height: 128,
                       child: ListView(
