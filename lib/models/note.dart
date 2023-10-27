@@ -38,7 +38,7 @@ class Note {
 
   String getFormattedDateTime() {
     String result =
-        "${getFormattedDate()} | ${createdAt.hour}:${createdAt.minute}";
+        "${getFormattedDate()} | ${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}";
 
     return result;
   }

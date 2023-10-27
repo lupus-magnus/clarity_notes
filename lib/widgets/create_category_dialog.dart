@@ -29,7 +29,7 @@ class CreateCategoryDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Qual categoria deseja criar?',
+              'Qual caderno deseja criar?',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),
@@ -73,7 +73,7 @@ class CreateCategoryDialog extends StatelessWidget {
                   Navigator.pop(context);
                   handleCreateCategory();
                 },
-                child: const Text('Criar categoria!')),
+                child: const Text('Criar caderno!')),
           ],
         ),
       ),
