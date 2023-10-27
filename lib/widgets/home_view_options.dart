@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/screens/create_note_setup.dart';
 import 'package:hello_world/widgets/button.dart';
 
 class HomeViewOptions extends StatelessWidget {
@@ -7,7 +8,11 @@ class HomeViewOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void handleCreateCategory() {}
-    void handleCreateNote() {}
+    void handleCreateNote() {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const CreateNoteSetup()),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16),

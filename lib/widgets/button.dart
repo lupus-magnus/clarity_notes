@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final bool outlined;
+  final bool disabled;
   final String text;
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final Icon? icon;
+
   const Button(
       {super.key,
       this.outlined = false,
+      this.disabled = false,
       this.icon,
       required this.text,
       required this.onPressed});
@@ -25,6 +28,7 @@ class Button extends StatelessWidget {
         text: text,
         onPressed: onPressed,
         icon: icon,
+        disabled: disabled,
       );
     }
   }
@@ -40,7 +44,7 @@ class CustomOutlinedButton extends Button {
       width: double.infinity,
       height: 48,
       child: OutlinedButton(
-          onPressed: onPressed,
+          onPressed: disabled ? null : onPressed,
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -68,7 +72,8 @@ class CustomButton extends Button {
       {super.key,
       required super.text,
       required super.onPressed,
-      required super.icon});
+      required super.icon,
+      required super.disabled});
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +81,12 @@ class CustomButton extends Button {
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4)))),
+        onPressed: disabled ? null : onPressed,
+        style: disabled
+            ? disabledStyle
+            : ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4)))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -95,3 +102,11 @@ class CustomButton extends Button {
     );
   }
 }
+
+ButtonStyle disabledStyle = ButtonStyle(
+    foregroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromRGBO(137, 137, 137, 1)),
+    backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromRGBO(192, 192, 192, 1)),
+    shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))));

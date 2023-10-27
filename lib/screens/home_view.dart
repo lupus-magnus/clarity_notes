@@ -117,21 +117,27 @@ class EmptyHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(children: [
-      Lottie.asset("assets/animations/empty.json", fit: BoxFit.cover),
-      const Text(
-        "Poxa... tão vazio...",
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-      ),
-      const Padding(
-        padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
-        child: Text(
-            "Experimente criar algumas categorias para organizar os seus pensamentos!",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16)),
-      ),
-      const HomeViewOptions(),
-    ]));
+    return Column(
+      children: [
+        const HomeViewOptions(),
+        const Padding(
+            padding: EdgeInsets.fromLTRB(80, 16, 80, 0), child: Divider()),
+        const SizedBox(
+          height: 64,
+        ),
+        Lottie.asset("assets/animations/empty.json", fit: BoxFit.cover),
+        const Text(
+          "Poxa... tão vazio...",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+          child: Text(
+              "Experimente criar algumas categorias para organizar os seus pensamentos!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16)),
+        ),
+      ],
+    );
   }
 }

@@ -81,8 +81,8 @@ class CategoryRow extends StatelessWidget {
                         ),
                       ),
                       child: const Icon(
-                        Icons.delete_forever_outlined,
-                        color: Color.fromARGB(255, 220, 53, 69),
+                        Icons.edit_note,
+                        color: Colors.black,
                       ),
                     )
                   ],
