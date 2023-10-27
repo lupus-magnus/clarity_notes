@@ -37,7 +37,7 @@ class HomeView extends StatelessWidget {
                           builder: (BuildContext context) =>
                               const CreateCategoryDialog(),
                         ),
-                    label: "Criar uma categoria"),
+                    label: "Criar um caderno"),
                 SpeedDialChild(
                     child: const Icon(Icons.edit_document),
                     backgroundColor: Colors.black,
@@ -97,7 +97,7 @@ class HomeView extends StatelessWidget {
                         builder: (BuildContext context) =>
                             const CreateCategoryDialog(),
                       ),
-                  label: "Criar uma categoria"),
+                  label: "Criar um caderno"),
               SpeedDialChild(
                   child: const Icon(Icons.edit_document),
                   backgroundColor: Colors.black,
@@ -133,7 +133,7 @@ class EmptyHomeView extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Text(
-              "Experimente criar algumas categorias para organizar os seus pensamentos!",
+              "Experimente criar alguns cadernos e anotações para organizar os seus pensamentos!",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16)),
         ),

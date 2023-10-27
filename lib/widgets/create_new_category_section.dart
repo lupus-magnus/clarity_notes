@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/providers/user_data.dart';
+import 'package:hello_world/screens/home_view.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/button.dart';
 import 'package:hello_world/widgets/input_text.dart';
 import 'package:provider/provider.dart';
 
 class CreateNewCategorySection extends StatefulWidget {
-  CreateNewCategorySection({super.key});
+  final bool redirectToWriteScreen;
+  CreateNewCategorySection({super.key, this.redirectToWriteScreen = true});
 
   final TextEditingController newCategoryTitleController =
       TextEditingController(text: '');
@@ -25,10 +27,16 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
         Provider.of<UserDataProvider>(context, listen: false);
     String newCategoryValue = widget.newCategoryTitleController.text;
     Category newCategory = await dataProvider.addCategory(newCategoryValue);
-    if (context.mounted) {
+    if (context.mounted && widget.redirectToWriteScreen) {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => WriteView(categoryId: newCategory.id),
+        ),
+      );
+    } else if (context.mounted && !widget.redirectToWriteScreen) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const HomeView(),
         ),
       );
     }

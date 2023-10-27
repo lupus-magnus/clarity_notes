@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/screens/create_category_setup.dart';
 import 'package:hello_world/screens/create_note_setup.dart';
 import 'package:hello_world/widgets/button.dart';
 
@@ -7,7 +8,12 @@ class HomeViewOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void handleCreateCategory() {}
+    void handleCreateCategory() {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const CreateCategorySetup()),
+      );
+    }
+
     void handleCreateNote() {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const CreateNoteSetup()),
@@ -19,8 +25,8 @@ class HomeViewOptions extends StatelessWidget {
       child: Column(
         children: [
           Button(
-              text: "CRIAR CATEGORIA",
-              icon: const Icon(Icons.folder_copy_outlined),
+              text: "CRIAR CADERNO",
+              icon: const Icon(Icons.library_books_outlined),
               outlined: true,
               onPressed: handleCreateCategory),
           const SizedBox(height: 8),

@@ -23,7 +23,7 @@ class ChooseNoteCategoryDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Selecione uma categoria',
+              'Escolha um caderno',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),

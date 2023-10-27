@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-List<String> values = ["Opção 1", "Opção 2", "Opção 3", "Opção 4"];
-
 class CustomRadioOptions extends StatelessWidget {
   final String labelField;
   final String valueField;

@@ -58,7 +58,7 @@ class CategoryRow extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 const Text(
-                                  'Ao deletar uma categoria, você perderá todas as anotações dela.',
+                                  'Ao deletar uma caderno, você perderá todas as anotações dele.',
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 24),
@@ -73,7 +73,7 @@ class CategoryRow extends StatelessWidget {
                                     Navigator.pop(context);
                                     dataProvider.removeCategory(data.id);
                                   },
-                                  child: const Text('Excluir categoria'),
+                                  child: const Text('Excluir caderno'),
                                 ),
                               ],
                             ),

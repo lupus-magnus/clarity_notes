@@ -31,7 +31,7 @@ class CreateNoteSetup extends StatelessWidget {
               if (dataProvider.getCategories.isNotEmpty)
                 const RadioSelectCategory(),
               const Heading(
-                text: "Crie uma categoria para essa anotação",
+                text: "Crie um caderno para essa anotação",
               ),
               const SizedBox(height: 16),
               CreateNewCategorySection(),

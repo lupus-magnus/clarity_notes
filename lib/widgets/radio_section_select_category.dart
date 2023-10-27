@@ -40,7 +40,7 @@ class _RadioSelectCategoryState extends State<RadioSelectCategory> {
     return Column(
       children: [
         const Heading(
-          text: "Escolha uma categoria",
+          text: "Escolha um caderno",
         ),
         const SizedBox(height: 8),
         CustomRadioOptions(
