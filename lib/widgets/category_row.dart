@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
-import 'package:hello_world/providers/user_data.dart';
+import 'package:hello_world/screens/edit_category.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/note_thumbnail.dart';
-import 'package:provider/provider.dart';
 
 class CategoryRow extends StatelessWidget {
   final Category data;
@@ -18,9 +17,6 @@ class CategoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider dataProvider =
-        Provider.of<UserDataProvider>(context, listen: false);
-
     return Padding(
             padding: EdgeInsets.only(top: marginTop),
             child: Column(
@@ -40,46 +36,13 @@ class CategoryRow extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     )),
                     TextButton(
-                      onPressed: () => showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => Dialog(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                const Text(
-                                  'Tem certeza dessa operação?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20),
-                                ),
-                                const SizedBox(height: 16),
-                                const Text(
-                                  'Ao deletar uma caderno, você perderá todas as anotações dele.',
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 24),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Cancelar'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    dataProvider.removeCategory(data.id);
-                                  },
-                                  child: const Text('Excluir caderno'),
-                                ),
-                              ],
-                            ),
+                      onPressed: () => {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditCategory(category: data),
                           ),
-                        ),
-                      ),
+                        )
+                      },
                       child: const Icon(
                         Icons.edit_note,
                         color: Colors.black,

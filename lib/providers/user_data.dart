@@ -48,8 +48,16 @@ class UserDataProvider extends ChangeNotifier {
     return categoryFromBox;
   }
 
+  updateCategory(String categoryId, {required String newName}) async {
+    final categoryBox = await Hive.openBox('category');
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+    categoryBox.put(categoryId, {...selectedCategoryMap, 'name': newName});
+  }
+
   removeCategory(String categoryId) async {
     final categoryBox = await Hive.openBox('category');
+
     categoryBox.delete(categoryId);
     notifyListeners();
   }
