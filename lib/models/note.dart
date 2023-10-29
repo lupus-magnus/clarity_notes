@@ -90,12 +90,12 @@ class Note {
     DateTime createdAt = DateTime.now();
 
     Note note = Note(
-      id: id,
-      title: title,
-      body: body,
-      createdAt: createdAt,
-      updatedAt: createdAt,
-    );
+        id: id,
+        title: title,
+        body: body,
+        createdAt: createdAt,
+        updatedAt: createdAt,
+        pinned: false);
     return note;
   }
 }

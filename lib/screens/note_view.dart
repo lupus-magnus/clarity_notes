@@ -117,6 +117,25 @@ class NoteView extends StatelessWidget {
                             end: 0.7,
                             duration: const Duration(milliseconds: 600),
                             curve: Curves.easeInOut),
+                      if (note.pinned)
+                        const Padding(
+                            padding: EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              children: [
+                                Icon(Icons.push_pin_outlined,
+                                    size: 18,
+                                    color: Color.fromRGBO(51, 51, 51, 1)),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Anotação fixada",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color.fromRGBO(51, 51, 51, 1)),
+                                )
+                              ],
+                            )).animate(delay: 2300.ms).fadeIn(),
                       Text(
                         note.title ?? '',
                         style: const TextStyle(

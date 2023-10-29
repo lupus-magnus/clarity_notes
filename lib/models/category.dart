@@ -34,6 +34,7 @@ class Category {
               title: noteMap['title'],
               body: noteMap['body'],
               createdAt: noteMap['createdAt'],
+              pinned: noteMap['pinned'],
               updatedAt: noteMap['updatedAt']),
         )
         .toList();
