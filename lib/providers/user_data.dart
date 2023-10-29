@@ -86,7 +86,10 @@ class UserDataProvider extends ChangeNotifier {
         await categoryBox.get(categoryId);
     final notes = selectedCategoryMap['notes'] as List<dynamic>;
 
-    final mappedUpdatedNote = updatedNote.toMap();
+    final mappedUpdatedNote = {
+      ...updatedNote.toMap(),
+      'updatedAt': DateTime.now()
+    };
 
     final updatedNotes = notes
         .map((mappedNote) =>

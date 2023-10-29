@@ -16,7 +16,7 @@ class NoteViewOptions extends StatelessWidget {
     // Copies content to clipboard
     Clipboard.setData(ClipboardData(
         text:
-            "${note.getFormattedDateTime()}\n\n*${note.title}*\n${note.body}"));
+            "${note.getCreatedAtInFormattedDateTime()}\n\n*${note.title}*\n${note.body}"));
 
     // Generates toast for UX
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

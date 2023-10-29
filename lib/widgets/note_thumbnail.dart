@@ -120,7 +120,7 @@ class NoteThumbnail extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        note.getFormattedDate(),
+                        note.getCreatedAtFormattedDate(),
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,

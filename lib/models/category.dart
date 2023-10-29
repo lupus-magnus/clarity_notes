@@ -28,12 +28,14 @@ class Category {
 
   factory Category.fromMap(Map<dynamic, dynamic> obj) {
     var formattedNotes = (obj['notes'] as List<dynamic>)
-        .map((noteMap) => Note(
+        .map(
+          (noteMap) => Note(
               id: noteMap['id'],
               title: noteMap['title'],
               body: noteMap['body'],
               createdAt: noteMap['createdAt'],
-            ))
+              updatedAt: noteMap['updatedAt']),
+        )
         .toList();
     Category category = Category(
         name: obj['name'],

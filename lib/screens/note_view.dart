@@ -50,7 +50,7 @@ class NoteView extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                note.getFormattedDateTime(),
+                                note.getCreatedAtInFormattedDateTime(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 14),
                               ),
@@ -80,7 +80,7 @@ class NoteView extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                note.getFormattedDateTime(),
+                                note.getUpdatedAtInFormattedDateTime(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 14),
                               ),
