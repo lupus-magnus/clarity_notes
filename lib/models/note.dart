@@ -7,38 +7,56 @@ class Note {
   final String body;
 
   final DateTime createdAt;
+  final DateTime updatedAt;
+
+  final bool pinned;
 
   Note({
     required this.body,
     this.title,
     required this.id,
     required this.createdAt,
+    required this.updatedAt,
+    this.pinned = false,
   });
 
-  String getFormattedDate() {
-    Map<int, String> longFormatMonths = {
-      1: "Jan",
-      2: "Fev",
-      3: "Mar",
-      4: "Abr",
-      5: "Mai",
-      6: "Jun",
-      7: "Jul",
-      8: "Ago",
-      9: "Set",
-      10: "Out",
-      11: "Nov",
-      12: "Dez",
-    };
+  Map<int, String> longFormatMonths = {
+    1: "Jan",
+    2: "Fev",
+    3: "Mar",
+    4: "Abr",
+    5: "Mai",
+    6: "Jun",
+    7: "Jul",
+    8: "Ago",
+    9: "Set",
+    10: "Out",
+    11: "Nov",
+    12: "Dez",
+  };
 
+  String getCreatedAtFormattedDate() {
     String formatedDate =
         "${createdAt.day} ${longFormatMonths[createdAt.month]!} ${createdAt.year}";
     return formatedDate;
   }
 
-  String getFormattedDateTime() {
+  String getUpdatedAtFormattedDate() {
+    String formatedDate =
+        "${updatedAt.day} ${longFormatMonths[updatedAt.month]!} ${updatedAt.year}";
+    return formatedDate;
+  }
+
+  String getCreatedAtInFormattedDateTime() {
     String result =
-        "${getFormattedDate()} | ${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}";
+        "${getCreatedAtFormattedDate()} | ${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}";
+
+    return result;
+  }
+
+  String getUpdatedAtInFormattedDateTime() {
+    String result =
+        "${getUpdatedAtFormattedDate()} | ${updatedAt.hour.toString().padLeft(2, '0')}:${updatedAt.minute.toString().padLeft(2, '0')}";
 
     return result;
   }
@@ -48,7 +66,9 @@ class Note {
       "id": id,
       "title": title,
       "body": body,
-      "createdAt": createdAt
+      "createdAt": createdAt,
+      "pinned": pinned,
+      "updatedAt": updatedAt,
     };
     return note;
   }
@@ -58,7 +78,10 @@ class Note {
         id: obj['id'],
         title: obj['title'],
         body: obj['body'],
-        createdAt: obj['createdAt']);
+        createdAt: obj['createdAt'],
+        updatedAt: obj['updatedAt'],
+        pinned: obj['pinned']);
+
     return note;
   }
 
@@ -66,7 +89,13 @@ class Note {
     String id = const Uuid().v4();
     DateTime createdAt = DateTime.now();
 
-    Note note = Note(id: id, title: title, body: body, createdAt: createdAt);
+    Note note = Note(
+        id: id,
+        title: title,
+        body: body,
+        createdAt: createdAt,
+        updatedAt: createdAt,
+        pinned: false);
     return note;
   }
 }

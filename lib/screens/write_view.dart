@@ -80,7 +80,8 @@ class WriteView extends StatelessWidget {
                     body: bodyController.text,
                     title: titleController.text,
                     id: note!.id,
-                    createdAt: note!.createdAt),
+                    createdAt: note!.createdAt,
+                    updatedAt: note!.updatedAt),
                 categoryId: categoryId,
               );
             }

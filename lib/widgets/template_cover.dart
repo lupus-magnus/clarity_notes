@@ -24,17 +24,6 @@ class TemplateCover extends StatelessWidget {
               ],
             ),
             Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 48,
-                    width: 48,
-                    fit: BoxFit.fitWidth,
-                  ),
-                )),
-            Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
                     padding: const EdgeInsets.only(right: 16.0), // 16),
@@ -46,8 +35,8 @@ class TemplateCover extends StatelessWidget {
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://avatars.githubusercontent.com/u/71194923?v=4"))),
+                                image:
+                                    AssetImage("assets/images/app/icon.png"))),
                         // decoration:
                       ),
                     ))),

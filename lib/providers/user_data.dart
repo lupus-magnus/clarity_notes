@@ -23,9 +23,13 @@ class UserDataProvider extends ChangeNotifier {
         categoryInstances.map((category) {
       category.notes
           .sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
+      List pinnedNotes = category.notes.where((note) => note.pinned).toList();
+      List unpinnedNotes =
+          category.notes.where((note) => !note.pinned).toList();
+
       return Category(
           name: category.name,
-          notes: category.notes,
+          notes: [...pinnedNotes, ...unpinnedNotes],
           id: category.id,
           updatedAt: category.updatedAt);
     }).toList();
@@ -86,7 +90,10 @@ class UserDataProvider extends ChangeNotifier {
         await categoryBox.get(categoryId);
     final notes = selectedCategoryMap['notes'] as List<dynamic>;
 
-    final mappedUpdatedNote = updatedNote.toMap();
+    final mappedUpdatedNote = {
+      ...updatedNote.toMap(),
+      'updatedAt': DateTime.now()
+    };
 
     final updatedNotes = notes
         .map((mappedNote) =>
@@ -99,6 +106,36 @@ class UserDataProvider extends ChangeNotifier {
     };
 
     categoryBox.put(categoryId, updatedCategoryMap);
+    notifyListeners();
+  }
+
+  togglePinNote(String noteId, String categoryId) async {
+    final categoryBox = await Hive.openBox('category');
+
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+
+    final categoryNotes = selectedCategoryMap['notes'] as List<dynamic>;
+    final Map selectedNoteMap =
+        categoryNotes.firstWhere((note) => note['id'] == noteId);
+
+    final updatedNoteMap = {
+      ...selectedNoteMap,
+      "pinned": !selectedNoteMap['pinned']
+    };
+
+    final updatedCategoryNotes = categoryNotes
+        .map((mappedNote) => mappedNote['id'] == updatedNoteMap['id']
+            ? updatedNoteMap
+            : mappedNote)
+        .toList();
+
+    Map<String, dynamic> updatedCategoryMap = {
+      ...selectedCategoryMap,
+      "notes": updatedCategoryNotes
+    };
+    await categoryBox.put(categoryId, updatedCategoryMap);
+
     notifyListeners();
   }
 

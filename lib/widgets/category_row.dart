@@ -108,8 +108,8 @@ class CategoryRow extends StatelessWidget {
         .moveX(
             begin: 8,
             end: 0,
-            delay: Duration(milliseconds: 600 + animDelay),
-            duration: const Duration(milliseconds: 300))
+            delay: Duration(milliseconds: animDelay),
+            duration: const Duration(milliseconds: 900))
         .fadeIn();
   }
 }
