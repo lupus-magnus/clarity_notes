@@ -4,6 +4,7 @@ import 'package:hello_world/models/note.dart';
 import 'package:hello_world/widgets/bottom_navbar.dart';
 import 'package:hello_world/widgets/category_cover.dart';
 import 'package:hello_world/widgets/header.dart';
+import 'package:hello_world/widgets/note_view_quick_actions.dart';
 
 class NoteView extends StatelessWidget {
   final Note note;
@@ -23,6 +24,7 @@ class NoteView extends StatelessWidget {
             Expanded(
                 child: ListView(
               children: [
+                const NoteViewQuickActions(),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
                     child: Column(
