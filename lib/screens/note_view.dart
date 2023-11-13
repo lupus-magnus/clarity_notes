@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/note.dart';
+
 import 'package:hello_world/widgets/bottom_navbar.dart';
 import 'package:hello_world/widgets/category_cover.dart';
 import 'package:hello_world/widgets/header.dart';
@@ -24,7 +25,10 @@ class NoteView extends StatelessWidget {
             Expanded(
                 child: ListView(
               children: [
-                const NoteViewQuickActions(),
+                NoteViewQuickActions(
+                  note: note,
+                  categoryId: categoryId,
+                ),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
                     child: Column(

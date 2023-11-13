@@ -139,6 +139,18 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> getPinStatus(String noteId, String categoryId) async {
+    final categoryBox = await Hive.openBox('category');
+
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+
+    final categoryNotes = selectedCategoryMap['notes'] as List<dynamic>;
+    final Map selectedNoteMap =
+        categoryNotes.firstWhere((note) => note['id'] == noteId);
+    return selectedNoteMap["pinned"] as bool;
+  }
+
   removeNote({required String noteId, required String categoryId}) async {
     final categoryBox = await Hive.openBox('category');
 
