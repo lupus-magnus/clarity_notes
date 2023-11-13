@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class UserDataProvider extends ChangeNotifier {
   late List<Category> categories = [];
+
   UserDataProvider();
 
   List<Category> get getCategories {
@@ -31,6 +32,9 @@ class UserDataProvider extends ChangeNotifier {
           name: category.name,
           notes: [...pinnedNotes, ...unpinnedNotes],
           id: category.id,
+          cover: category.cover,
+          description: category.description,
+          favorite: category.favorite,
           updatedAt: category.updatedAt);
     }).toList();
     categories = categoriesWithNotesByDate;
