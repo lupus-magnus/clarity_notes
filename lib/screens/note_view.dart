@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/note.dart';
+import 'package:hello_world/widgets/bottom_navbar.dart';
 import 'package:hello_world/widgets/category_cover.dart';
 import 'package:hello_world/widgets/header.dart';
-import 'package:hello_world/widgets/view_note_options.dart';
 
 class NoteView extends StatelessWidget {
   final Note note;
@@ -174,15 +174,12 @@ class NoteView extends StatelessWidget {
                             .moveY(begin: 24, end: 0),
                       ],
                     )),
-                NoteViewOptions(
-                  categoryId: categoryId,
-                  note: note,
-                )
               ],
             ))
           ],
         ),
       ),
+      bottomNavigationBar: const BottomNavbar(),
     );
   }
 }
