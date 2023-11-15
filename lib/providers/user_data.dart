@@ -57,6 +57,24 @@ class UserDataProvider extends ChangeNotifier {
     return favorites;
   }
 
+  List<Note> get getRecentNotes {
+    final categoryBox = Hive.box('category');
+    final categoryMaps = categoryBox.values;
+    final List<Category> categoryInstances = categoryMaps
+        .map((categoryMap) => Category.fromMap(categoryMap))
+        .toList();
+    final List<Note> allNotes = categoryInstances
+        .map(
+          (category) => category.notes,
+        )
+        .toList()
+        .expand((x) => x)
+        .toList();
+    allNotes.sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
+    final mostRecent5Notes = allNotes.take(5).toList();
+    return mostRecent5Notes;
+  }
+
   toggleFavoriteCategory(String categoryId) async {
     final categoryBox = await Hive.openBox('category');
     Map<dynamic, dynamic> selectedCategoryMap =

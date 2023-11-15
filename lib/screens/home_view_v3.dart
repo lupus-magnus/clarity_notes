@@ -49,12 +49,13 @@ class HomeViewV3 extends StatelessWidget {
                       height: 130,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: const [
-                          NoteThumb(),
-                          NoteThumb(),
-                          NoteThumb(),
-                          NoteThumb(),
-                        ],
+                        children: context
+                            .watch<UserDataProvider>()
+                            .getRecentNotes
+                            .map(
+                              (e) => NoteThumb(text: e.body, title: e.title),
+                            )
+                            .toList(),
                       ),
                     ),
                     const SizedBox(
@@ -153,7 +154,15 @@ class SectionHeading extends StatelessWidget {
 }
 
 class NoteThumb extends StatelessWidget {
-  const NoteThumb({super.key});
+  final String? title;
+  final String text;
+  // final String categoryName;
+
+  const NoteThumb({
+    super.key,
+    this.title,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -176,53 +185,33 @@ class NoteThumb extends StatelessWidget {
                 offset: Offset(4, 4))
           ],
         ),
-        child: const Padding(
-            padding: EdgeInsets.all(8),
+        child: Padding(
+            padding: const EdgeInsets.all(8),
             child: Stack(
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (title != null)
+                      Text(
+                        title!,
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    if (title != null)
+                      const SizedBox(
+                        height: 4,
+                      ),
                     Text(
-                      "S2C1 | Anotações",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      text,
+                      style: const TextStyle(fontSize: 12),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing...",
-                      style: TextStyle(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 4,
                     )
                   ],
                 ),
-                Positioned(
-                  bottom: 0,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.folder_open_outlined,
-                                size: 12, color: Color.fromRGBO(51, 51, 51, 1)),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "Categoria arrombada 1",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color.fromRGBO(51, 51, 51, 1)),
-                            )
-                          ],
-                        )
-                      ]),
-                )
               ],
             )),
       ),
@@ -316,7 +305,7 @@ class NotebookCoverThumb extends StatelessWidget {
                           totalNotes == 0 ? 'Vazio' : totalNotes.toString(),
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontSize: 10,
+                              fontSize: 12,
                               color: Color.fromRGBO(51, 51, 51, 1)),
                         )
                       ],
