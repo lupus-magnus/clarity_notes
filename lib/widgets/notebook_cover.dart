@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/utils/format_datetime.dart';
 
 class NotebookCover extends StatelessWidget {
-  const NotebookCover({super.key});
+  final String cover;
+  final String name;
+  final String description;
+  final DateTime updatedAt;
+  final int totalNotes;
+
+  const NotebookCover({
+    super.key,
+    required this.cover,
+    required this.name,
+    required this.description,
+    required this.totalNotes,
+    required this.updatedAt,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,47 +43,53 @@ class NotebookCover extends StatelessWidget {
             children: [
               Container(
                 height: 80,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/textures/1.jpg'),
+                    image: AssetImage(cover),
                     fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(8),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Anotações Semanais",
-                        style: TextStyle(
+                    Text(name,
+                        style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w700)),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
-                    Text("Rascunhos e lembretes para salvar no diário.",
-                        style: TextStyle(
+                    Text(description,
+                        style: const TextStyle(
                             fontSize: 10, fontWeight: FontWeight.w500)),
                   ],
                 ),
               )
             ],
           ),
-          const Positioned(
+          Positioned(
               bottom: 0,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+                padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MetadataRow(
-                          label: "7 anotações",
-                          icon: Icon(Icons.file_copy_outlined, size: 12)),
+                          label: totalNotes == 0
+                              ? 'Sem anotações'
+                              : totalNotes == 1
+                                  ? "1 anotação"
+                                  : "$totalNotes anotações",
+                          icon: const Icon(Icons.file_copy_outlined, size: 12)),
                       MetadataRow(
-                          label: "23 Set 2023 | 16:20",
-                          icon: Icon(Icons.calendar_month_outlined, size: 12))
+                          label: getFormattedDateTime(updatedAt),
+                          icon: const Icon(Icons.calendar_month_outlined,
+                              size: 12))
                     ]),
               ))
         ],

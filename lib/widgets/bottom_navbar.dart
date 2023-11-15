@@ -16,17 +16,28 @@ class BottomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-        selectedItemColor: Colors.black,
-        onTap: (value) => handleNavigate(value, context),
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: "Início"),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.palette_outlined), label: "Temas"),
-          // BottomNavigationBarItem(icon: Icon(Icons.alarm), label: "Rotinas"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.maps_ugc_rounded), label: "Criar"),
-        ]);
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            spreadRadius: 3.0,
+            blurRadius: 3.0,
+            color: Color.fromRGBO(0, 0, 0, 0.15),
+          )
+        ],
+      ),
+      child: BottomNavigationBar(
+          selectedItemColor: Colors.black,
+          onTap: (value) => handleNavigate(value, context),
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: "Início"),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.palette_outlined), label: "Temas"),
+            // BottomNavigationBarItem(icon: Icon(Icons.alarm), label: "Rotinas"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.maps_ugc_rounded), label: "Criar"),
+          ]),
+    );
   }
 }
