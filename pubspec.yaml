@@ -98,7 +98,9 @@ flutter:
     - assets/images/logo.png
     - assets/images/bg.png
     - assets/animations/
+    - assets/images/brand_black_long.png
     - assets/images/app/
+    - assets/textures/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

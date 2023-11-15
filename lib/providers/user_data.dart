@@ -5,6 +5,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class UserDataProvider extends ChangeNotifier {
   late List<Category> categories = [];
+  late List<Category> favoriteCategories = [];
+
   UserDataProvider();
 
   List<Category> get getCategories {
@@ -31,11 +33,57 @@ class UserDataProvider extends ChangeNotifier {
           name: category.name,
           notes: [...pinnedNotes, ...unpinnedNotes],
           id: category.id,
+          cover: category.cover,
+          description: category.description,
+          favorite: category.favorite,
           updatedAt: category.updatedAt);
     }).toList();
     categories = categoriesWithNotesByDate;
 
     return categoriesWithNotesByDate;
+  }
+
+  List<Category> get getFavoriteCategories {
+    final categoryBox = Hive.box('category');
+    final categoryMaps = categoryBox.values;
+
+    List<Category> categoryInstances = categoryMaps
+        .map((categoryMap) => Category.fromMap(categoryMap))
+        .toList();
+
+    List<Category> favorites =
+        categoryInstances.where((e) => e.favorite).toList();
+
+    return favorites;
+  }
+
+  List<Note> get getRecentNotes {
+    final categoryBox = Hive.box('category');
+    final categoryMaps = categoryBox.values;
+    final List<Category> categoryInstances = categoryMaps
+        .map((categoryMap) => Category.fromMap(categoryMap))
+        .toList();
+    final List<Note> allNotes = categoryInstances
+        .map(
+          (category) => category.notes,
+        )
+        .toList()
+        .expand((x) => x)
+        .toList();
+    allNotes.sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
+    final mostRecent5Notes = allNotes.take(5).toList();
+    return mostRecent5Notes;
+  }
+
+  toggleFavoriteCategory(String categoryId) async {
+    final categoryBox = await Hive.openBox('category');
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+
+    categoryBox.put(categoryId,
+        {...selectedCategoryMap, 'favorite': !selectedCategoryMap['favorite']});
+
+    notifyListeners();
   }
 
   // Categories CRUD
@@ -137,6 +185,18 @@ class UserDataProvider extends ChangeNotifier {
     await categoryBox.put(categoryId, updatedCategoryMap);
 
     notifyListeners();
+  }
+
+  Future<bool> getPinStatus(String noteId, String categoryId) async {
+    final categoryBox = await Hive.openBox('category');
+
+    Map<dynamic, dynamic> selectedCategoryMap =
+        await categoryBox.get(categoryId);
+
+    final categoryNotes = selectedCategoryMap['notes'] as List<dynamic>;
+    final Map selectedNoteMap =
+        categoryNotes.firstWhere((note) => note['id'] == noteId);
+    return selectedNoteMap["pinned"] as bool;
   }
 
   removeNote({required String noteId, required String categoryId}) async {
