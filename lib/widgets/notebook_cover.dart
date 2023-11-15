@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/providers/user_data.dart';
+import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/utils/format_datetime.dart';
+import 'package:provider/provider.dart';
 
 class NotebookCover extends StatelessWidget {
   final String cover;
+  final String categoryId;
   final String name;
   final String description;
   final DateTime updatedAt;
   final int totalNotes;
+  final bool favorite;
 
-  const NotebookCover({
-    super.key,
-    required this.cover,
-    required this.name,
-    required this.description,
-    required this.totalNotes,
-    required this.updatedAt,
-  });
+  const NotebookCover(
+      {super.key,
+      required this.categoryId,
+      required this.cover,
+      required this.name,
+      required this.description,
+      required this.totalNotes,
+      required this.updatedAt,
+      required this.favorite});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +97,22 @@ class NotebookCover extends StatelessWidget {
                           icon: const Icon(Icons.calendar_month_outlined,
                               size: 12))
                     ]),
-              ))
+              )),
+          Positioned(
+              bottom: 16,
+              right: 8,
+              child: InkWell(
+                  onTap: () {
+                    context
+                        .read<UserDataProvider>()
+                        .toggleFavoriteCategory(categoryId);
+                  },
+                  child: Icon(
+                    favorite ? Icons.star : Icons.star_border,
+                    color: favorite
+                        ? themeColors['primary']
+                        : themeColors['disabled'],
+                  )))
         ],
       ),
     );
@@ -113,8 +134,7 @@ class MetadataRow extends StatelessWidget {
         ),
         Text(
           label,
-          style: const TextStyle(
-              fontSize: 10, color: Color.fromRGBO(51, 51, 51, 1)),
+          style: TextStyle(fontSize: 10, color: themeColors['mutedText']),
         )
       ],
     );

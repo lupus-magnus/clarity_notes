@@ -60,19 +60,31 @@ class HomeViewV3 extends StatelessWidget {
                     const SizedBox(
                       height: 48,
                     ),
-                    const SectionHeading(text: "Cadernos favoritos"),
-                    const SingleChildScrollView(
+                    if (context
+                        .watch<UserDataProvider>()
+                        .getFavoriteCategories
+                        .isNotEmpty)
+                      const SectionHeading(text: "Cadernos favoritos"),
+                    SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        NotebookCoverThumb(),
-                        NotebookCoverThumb(),
-                        NotebookCoverThumb(),
-                        NotebookCoverThumb(),
-                      ]),
+                      child: Row(
+                          children: context
+                              .watch<UserDataProvider>()
+                              .getFavoriteCategories
+                              .map((e) => NotebookCoverThumb(
+                                    cover: e.cover,
+                                    name: e.name,
+                                    totalNotes: e.notes.length,
+                                  ))
+                              .toList()),
                     ),
-                    const SizedBox(
-                      height: 48,
-                    ),
+                    if (context
+                        .watch<UserDataProvider>()
+                        .getFavoriteCategories
+                        .isNotEmpty)
+                      const SizedBox(
+                        height: 48,
+                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -109,6 +121,8 @@ class HomeViewV3 extends StatelessWidget {
                                     description: e.description,
                                     totalNotes: e.notes.length,
                                     updatedAt: e.updatedAt,
+                                    favorite: e.favorite,
+                                    categoryId: e.id,
                                   ))
                               .toList()),
                     )
@@ -217,7 +231,16 @@ class NoteThumb extends StatelessWidget {
 }
 
 class NotebookCoverThumb extends StatelessWidget {
-  const NotebookCoverThumb({super.key});
+  final String name;
+  final String cover;
+  final int totalNotes;
+
+  const NotebookCoverThumb({
+    super.key,
+    required this.cover,
+    required this.name,
+    required this.totalNotes,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -246,28 +269,29 @@ class NotebookCoverThumb extends StatelessWidget {
                 children: [
                   Container(
                     height: 40,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/textures/5.jpg'),
+                        image: AssetImage(cover),
                         fit: BoxFit.cover,
                       ),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(8),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              "Receitas",
+                              name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                           ),
                         ]),
@@ -275,23 +299,23 @@ class NotebookCoverThumb extends StatelessWidget {
                 ],
               ),
             ),
-            const Positioned(
+            Positioned(
                 bottom: 0,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Icon(Icons.file_copy_outlined,
+                        const Icon(Icons.file_copy_outlined,
                             size: 12, color: Color.fromRGBO(51, 51, 51, 1)),
-                        SizedBox(
+                        const SizedBox(
                           width: 4,
                         ),
                         Text(
-                          "3 anotações",
+                          totalNotes == 0 ? 'Vazio' : totalNotes.toString(),
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(51, 51, 51, 1)),
                         )

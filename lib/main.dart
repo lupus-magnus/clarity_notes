@@ -4,6 +4,7 @@ import 'package:hello_world/database/index.dart';
 import 'package:hello_world/providers/user_data.dart';
 // import 'package:hello_world/screens/home_view.dart';
 import 'package:hello_world/screens/home_view_v3.dart';
+import 'package:hello_world/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -25,9 +26,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Klaritat',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.black, background: themeColors['background']),
         fontFamily: "Poppins",
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
