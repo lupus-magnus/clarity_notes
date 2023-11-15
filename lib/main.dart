@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/database/index.dart';
 import 'package:hello_world/providers/user_data.dart';
-// import 'package:hello_world/screens/home_view.dart';
-import 'package:hello_world/screens/home_view_v3.dart';
+import 'package:hello_world/screens/home_view.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all<Color>(Colors.black)),
         ),
       ),
-      home: const HomeViewV3(),
+      home: const HomeView(),
     );
   }
 }
