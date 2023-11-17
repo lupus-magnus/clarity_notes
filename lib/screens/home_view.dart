@@ -4,7 +4,7 @@ import 'package:hello_world/screens/create_category_setup.dart';
 import 'package:hello_world/screens/create_note_setup.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/widgets/bottom_navbar.dart';
-import 'package:hello_world/widgets/header.dart';
+import 'package:hello_world/widgets/custom_app_bar.dart';
 
 import 'package:hello_world/widgets/notebook_cover.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +15,13 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60), child: CustomAppBar()),
       body: Container(
           color: themeColors['background'],
           child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Header(),
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
                 child: Column(
@@ -116,15 +117,7 @@ class HomeView extends StatelessWidget {
                           children: context
                               .watch<UserDataProvider>()
                               .getCategories
-                              .map((e) => NotebookCover(
-                                    cover: e.cover,
-                                    name: e.name,
-                                    description: e.description,
-                                    totalNotes: e.notes.length,
-                                    updatedAt: e.updatedAt,
-                                    favorite: e.favorite,
-                                    categoryId: e.id,
-                                  ))
+                              .map((e) => NotebookCover(category: e))
                               .toList()),
                     )
                   ],

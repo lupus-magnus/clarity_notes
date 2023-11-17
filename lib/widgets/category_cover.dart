@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CategoryCover extends StatelessWidget {
-  const CategoryCover({super.key});
+  final String pathOrUrl;
+  const CategoryCover({super.key, required this.pathOrUrl});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 80,
       width: MediaQuery.of(context).size.width,
-      child: Image.asset('assets/images/bg.png', fit: BoxFit.cover),
+      child: Image.asset(pathOrUrl, fit: BoxFit.cover),
     );
   }
 }

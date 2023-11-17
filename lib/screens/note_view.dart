@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 
 import 'package:hello_world/widgets/bottom_navbar.dart';
 import 'package:hello_world/widgets/category_cover.dart';
-import 'package:hello_world/widgets/header.dart';
+import 'package:hello_world/widgets/custom_app_bar.dart';
+
 import 'package:hello_world/widgets/note_view_quick_actions.dart';
 
 class NoteView extends StatelessWidget {
   final Note note;
-  final String categoryId;
+  final Category category;
 
-  const NoteView({super.key, required this.note, required this.categoryId});
+  const NoteView({super.key, required this.note, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60), child: CustomAppBar()),
       body: Container(
         color: const Color.fromRGBO(237, 237, 237, 1),
         child: Column(
           children: <Widget>[
-            const Header(),
-            const CategoryCover(),
+            CategoryCover(pathOrUrl: category.cover),
+            const SizedBox(
+              height: 24,
+            ),
             Expanded(
                 child: ListView(
               children: [
                 NoteViewQuickActions(
                   note: note,
-                  categoryId: categoryId,
+                  categoryId: category.id,
                 ),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/note_view.dart';
@@ -8,13 +9,14 @@ import 'package:provider/provider.dart';
 
 class NoteThumbnail extends StatelessWidget {
   final Note note;
-  final String categoryId;
+  final Category category;
   final int animDelay;
-  const NoteThumbnail(
-      {super.key,
-      required this.note,
-      required this.categoryId,
-      required this.animDelay});
+  const NoteThumbnail({
+    super.key,
+    required this.note,
+    required this.category,
+    required this.animDelay,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,11 @@ class NoteThumbnail extends StatelessWidget {
         onTap: () => {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => NoteView(
-                note: note,
-                categoryId: categoryId,
-              ),
+              builder: (context) => NoteView(note: note, category: category),
             ),
           )
         },
-        onDoubleTap: () => {dataProvider.togglePinNote(note.id, categoryId)},
+        onDoubleTap: () => {dataProvider.togglePinNote(note.id, category.id)},
         onLongPress: () => showDialog<String>(
           context: context,
           builder: (BuildContext context) => Dialog(
@@ -65,7 +64,7 @@ class NoteThumbnail extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                       dataProvider.removeNote(
-                          noteId: note.id, categoryId: categoryId);
+                          noteId: note.id, categoryId: category.id);
                     },
                     child: const Text('Excluir anotação'),
                   ),

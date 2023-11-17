@@ -97,6 +97,7 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/bg.png
+    - assets/images/logo_black.png
     - assets/animations/
     - assets/images/brand_black_long.png
     - assets/images/app/
