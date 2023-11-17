@@ -4,7 +4,8 @@ import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
 
-import 'package:hello_world/widgets/template_cover.dart';
+import 'package:hello_world/widgets/custom_app_bar.dart';
+
 import 'package:provider/provider.dart';
 
 class WriteView extends StatelessWidget {
@@ -20,11 +21,10 @@ class WriteView extends StatelessWidget {
         TextEditingController(text: note?.body ?? '');
 
     return Scaffold(
+        appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(60), child: CustomAppBar()),
         body: Column(
           children: <Widget>[
-            const TemplateCover(
-              renderBacklink: true,
-            ),
             Expanded(
                 child: ListView(
               children: [
