@@ -23,7 +23,7 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
         Column(
           children: [
             const Heading(
-              text: "Descrição do caderno",
+              text: "Descrição do caderno (opcional)",
             ),
             const SizedBox(height: 16),
             InputText(
