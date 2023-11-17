@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/screens/create_view.dart';
 import 'package:hello_world/screens/home_view.dart';
 
 class BottomNavbar extends StatelessWidget {
@@ -9,6 +10,12 @@ class BottomNavbar extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const HomeView(),
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const CreateView(),
         ),
       );
     }
