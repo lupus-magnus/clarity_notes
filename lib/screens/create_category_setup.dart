@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/widgets/create_new_category_section.dart';
+import 'package:hello_world/widgets/custom_app_bar.dart';
 import 'package:hello_world/widgets/heading.dart';
 import 'package:hello_world/widgets/or_divider.dart';
 import 'package:hello_world/widgets/select_predefined_categories.dart';
-import 'package:hello_world/widgets/template_cover.dart';
 
 class CreateCategorySetup extends StatelessWidget {
   const CreateCategorySetup({super.key});
@@ -11,10 +11,11 @@ class CreateCategorySetup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(60), child: CustomAppBar()),
         body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(children: [
-              const TemplateCover(renderBacklink: true),
               Container(
                 padding: const EdgeInsets.all(16),
                 child: Column(children: [
