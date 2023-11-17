@@ -87,8 +87,9 @@ class UserDataProvider extends ChangeNotifier {
   }
 
   // Categories CRUD
-  addCategory(String name) async {
-    final Category newCategory = Category.create(name: name);
+  addCategory(String name, {String? description, String? cover}) async {
+    final Category newCategory =
+        Category.create(name: name, description: description, cover: cover);
     final categoryMap = newCategory.toMap();
     final categoryBox = await Hive.openBox('category');
     categoryBox.put(newCategory.id, categoryMap);

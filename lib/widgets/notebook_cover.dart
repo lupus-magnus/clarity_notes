@@ -56,22 +56,24 @@ class NotebookCover extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(category.name,
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w700)),
-                        const SizedBox(
-                          height: 8,
+                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(category.name,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w700)),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(category.description,
+                                style: const TextStyle(
+                                    fontSize: 10, fontWeight: FontWeight.w500)),
+                          ],
                         ),
-                        Text(category.description,
-                            style: const TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                  )
+                      ))
                 ],
               ),
               Positioned(

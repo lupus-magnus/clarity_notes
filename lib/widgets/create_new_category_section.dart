@@ -5,6 +5,7 @@ import 'package:hello_world/screens/home_view.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/button.dart';
 import 'package:hello_world/widgets/input_text.dart';
+import 'package:hello_world/widgets/notebook_more_options_menu.dart';
 import 'package:provider/provider.dart';
 
 class CreateNewCategorySection extends StatefulWidget {
@@ -12,6 +13,9 @@ class CreateNewCategorySection extends StatefulWidget {
   CreateNewCategorySection({super.key, this.redirectToWriteScreen = true});
 
   final TextEditingController newCategoryTitleController =
+      TextEditingController(text: '');
+
+  final TextEditingController newCategoryDescriptionController =
       TextEditingController(text: '');
 
   @override
@@ -26,7 +30,10 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
     UserDataProvider dataProvider =
         Provider.of<UserDataProvider>(context, listen: false);
     String newCategoryValue = widget.newCategoryTitleController.text;
-    Category newCategory = await dataProvider.addCategory(newCategoryValue);
+    Category newCategory = await dataProvider.addCategory(
+      newCategoryValue,
+      description: widget.newCategoryTitleController.text,
+    );
     if (context.mounted && widget.redirectToWriteScreen) {
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -55,6 +62,8 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
           },
         ),
         const SizedBox(height: 16),
+        NotebookMoreOptionsMenu(
+            controller: widget.newCategoryDescriptionController),
         Button(
           text: "AVANÇAR",
           onPressed: () {
