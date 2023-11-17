@@ -12,6 +12,7 @@ import 'package:hello_world/widgets/bottom_navbar.dart';
 import 'package:hello_world/widgets/category_cover.dart';
 import 'package:hello_world/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:hello_world/widgets/quick_action_button.dart';
 
@@ -53,10 +54,26 @@ class _CategoryViewState extends State<CategoryView> {
               handleSetState: handleSetState,
             ),
             CategoryTitleRow(category: widget.category),
-            NotesGridSection(
-              notes: widget.category.notes,
-              category: widget.category,
-            )
+            widget.category.notes.isEmpty
+                ? Column(
+                    children: [
+                      Lottie.asset("assets/animations/new_category.json",
+                          frameRate: FrameRate(20), fit: BoxFit.cover),
+                      const Icon(Icons.info_outline),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        child: Text(
+                          "Caderno vazio. Pressione ESCREVER para adicionar sua primeira nota.",
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  )
+                : NotesGridSection(
+                    notes: widget.category.notes,
+                    category: widget.category,
+                  )
           ],
         ),
       ),
