@@ -95,7 +95,7 @@ class CategoryRow extends StatelessWidget {
                           ...data.notes
                               .map((note) => NoteThumbnail(
                                     note: note,
-                                    categoryId: data.id,
+                                    category: data,
                                     animDelay: data.notes.indexOf(note) * 300,
                                   ))
                               .toList()

@@ -20,7 +20,7 @@ class InputText extends StatelessWidget {
         decoration: const InputDecoration(
           border: InputBorder.none,
           filled: true,
-          fillColor: Color.fromRGBO(234, 234, 234, 1),
+          fillColor: Colors.white,
           hintText: "Ex.: Reviews gastronômicas",
           hintStyle: TextStyle(
               fontWeight: FontWeight.w500,

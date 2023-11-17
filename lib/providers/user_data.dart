@@ -75,15 +75,15 @@ class UserDataProvider extends ChangeNotifier {
     return mostRecent5Notes;
   }
 
-  toggleFavoriteCategory(String categoryId) async {
+  Future<bool> toggleFavoriteCategory(String categoryId) async {
     final categoryBox = await Hive.openBox('category');
     Map<dynamic, dynamic> selectedCategoryMap =
         await categoryBox.get(categoryId);
 
     categoryBox.put(categoryId,
         {...selectedCategoryMap, 'favorite': !selectedCategoryMap['favorite']});
-
     notifyListeners();
+    return !selectedCategoryMap['favorite'];
   }
 
   // Categories CRUD
