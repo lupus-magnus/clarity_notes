@@ -10,6 +10,7 @@ import 'package:hello_world/widgets/category_note_thumb.dart';
 import 'package:hello_world/widgets/custom_app_bar.dart';
 
 import 'package:hello_world/widgets/notebook_cover.dart';
+import 'package:hello_world/widgets/onboarding.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
@@ -17,127 +18,153 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60), child: CustomAppBar()),
-      body: Container(
-          color: themeColors['background'],
-          child: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    if (context
-                        .watch<UserDataProvider>()
-                        .getFavoriteCategories
-                        .isNotEmpty)
-                      const SectionHeading(text: "Cadernos favoritos"),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: context
-                              .watch<UserDataProvider>()
-                              .getFavoriteCategories
-                              .map((category) => NotebookCoverThumb(
-                                    category: category,
-                                  ))
-                              .toList()),
-                    ),
-                    if (context
-                        .watch<UserDataProvider>()
-                        .getFavoriteCategories
-                        .isNotEmpty)
-                      const SizedBox(
-                        height: 32,
-                      ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final bool isCategoriesListEmpty =
+        context.read<UserDataProvider>().getCategories.isEmpty;
+
+    return isCategoriesListEmpty
+        ? const Onboarding()
+        : Scaffold(
+            appBar: const PreferredSize(
+                preferredSize: Size.fromHeight(60), child: CustomAppBar()),
+            body: Container(
+                color: themeColors['background'],
+                child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SectionHeading(text: "Notas recentes"),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const CreateNoteSetup(),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (context
+                                  .watch<UserDataProvider>()
+                                  .getFavoriteCategories
+                                  .isNotEmpty)
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                              if (context
+                                  .watch<UserDataProvider>()
+                                  .getFavoriteCategories
+                                  .isNotEmpty)
+                                const SectionHeading(
+                                    text: "Cadernos favoritos"),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    children: context
+                                        .watch<UserDataProvider>()
+                                        .getFavoriteCategories
+                                        .map((category) => NotebookCoverThumb(
+                                              category: category,
+                                            ))
+                                        .toList()),
                               ),
-                            )
-                          },
-                          child: const Icon(
-                            Icons.maps_ugc_rounded,
-                            color: Colors.black,
+                              if (context
+                                  .watch<UserDataProvider>()
+                                  .getFavoriteCategories
+                                  .isNotEmpty)
+                                const SizedBox(
+                                  height: 32,
+                                ),
+                              if (context
+                                  .watch<UserDataProvider>()
+                                  .getRecentNotes
+                                  .isNotEmpty)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const SectionHeading(
+                                        text: "Notas recentes"),
+                                    TextButton(
+                                      onPressed: () => {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CreateNoteSetup(),
+                                          ),
+                                        )
+                                      },
+                                      child: const Icon(
+                                        Icons.maps_ugc_rounded,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              if (context
+                                  .watch<UserDataProvider>()
+                                  .getRecentNotes
+                                  .isNotEmpty)
+                                SizedBox(
+                                  height: 226,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: context
+                                        .watch<UserDataProvider>()
+                                        .getRecentNotes
+                                        .map(
+                                          (e) => Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
+                                              child: CategoryNote(
+                                                note: e.note,
+                                                category: e.category,
+                                                displayNotebookName: true,
+                                              )),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SectionHeading(
+                                      text: "Todos os cadernos"),
+                                  TextButton(
+                                    onPressed: () => {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const CreateCategorySetup(),
+                                        ),
+                                      )
+                                    },
+                                    child: const Icon(
+                                      Icons.maps_ugc_rounded,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Center(
+                                child: Wrap(
+                                    spacing: 16,
+                                    runSpacing: 16,
+                                    children: context
+                                        .watch<UserDataProvider>()
+                                        .getCategories
+                                        .map((e) => NotebookCover(category: e))
+                                        .toList()),
+                              )
+                            ],
                           ),
                         )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 226,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: context
-                            .watch<UserDataProvider>()
-                            .getRecentNotes
-                            .map(
-                              (e) => Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 8),
-                                  child: CategoryNote(
-                                    note: e.note,
-                                    category: e.category,
-                                    displayNotebookName: true,
-                                  )),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const SectionHeading(text: "Todos os cadernos"),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CreateCategorySetup(),
-                              ),
-                            )
-                          },
-                          child: const Icon(
-                            Icons.maps_ugc_rounded,
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Center(
-                      child: Wrap(
-                          spacing: 16,
-                          runSpacing: 16,
-                          children: context
-                              .watch<UserDataProvider>()
-                              .getCategories
-                              .map((e) => NotebookCover(category: e))
-                              .toList()),
-                    )
-                  ],
-                ),
-              )
-            ]),
-          )),
-      bottomNavigationBar: const BottomNavbar(),
-    );
+                      ]),
+                )),
+            bottomNavigationBar: const BottomNavbar(),
+          );
   }
 }
 
