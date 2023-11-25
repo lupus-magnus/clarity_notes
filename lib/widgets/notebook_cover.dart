@@ -64,9 +64,13 @@ class NotebookCover extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(category.name,
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w700)),
+                            Text(
+                              category.name,
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w700),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             const SizedBox(
                               height: 8,
                             ),
