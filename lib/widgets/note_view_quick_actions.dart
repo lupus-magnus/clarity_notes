@@ -4,7 +4,7 @@ import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/quick_action_button.dart';
-import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:provider/provider.dart';
 
 class NoteViewQuickActions extends StatelessWidget {
@@ -74,9 +74,9 @@ class NoteViewQuickActions extends StatelessWidget {
   }
 
   handleTapShare() {
-    Clipboard.setData(ClipboardData(
-        text:
-            "${note.getCreatedAtInFormattedDateTime()}\n\n*${note.title}*\n${note.body}"));
+    String text =
+        "${note.getCreatedAtInFormattedDateTime()}\n\n${note.title}\n${note.body}";
+    Share.share(text);
   }
 
   @override
@@ -112,7 +112,7 @@ class NoteViewQuickActions extends StatelessWidget {
           QuickActionButton(
             label: "Enviar",
             icon: const Icon(Icons.send_outlined),
-            onTap: () {},
+            onTap: handleTapShare,
           ),
         ],
       ),

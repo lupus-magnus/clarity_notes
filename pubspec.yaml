@@ -45,6 +45,7 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: ^2.1.1
   http: ^1.1.0
+  share_plus: ^7.0.2
 
 flutter_native_splash:
   color: "#232323"
