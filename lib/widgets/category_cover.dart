@@ -6,10 +6,14 @@ class CategoryCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCoverLocal = !pathOrUrl.contains('http');
+
     return SizedBox(
       height: 80,
       width: MediaQuery.of(context).size.width,
-      child: Image.asset(pathOrUrl, fit: BoxFit.cover),
+      child: isCoverLocal
+          ? Image.asset(pathOrUrl, fit: BoxFit.cover)
+          : Image.network(pathOrUrl, fit: BoxFit.cover),
     );
   }
 }

@@ -25,6 +25,13 @@ class CreateNewCategorySection extends StatefulWidget {
 
 class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
   bool submitIsDisabled = true;
+  String? categoryCover;
+
+  handleUpdateCover(String newCover) {
+    setState(() {
+      categoryCover = newCover;
+    });
+  }
 
   handleSubmit(BuildContext context) async {
     UserDataProvider dataProvider =
@@ -33,6 +40,7 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
     Category newCategory = await dataProvider.addCategory(
       newCategoryValue,
       description: widget.newCategoryTitleController.text,
+      cover: categoryCover,
     );
     if (context.mounted && widget.redirectToWriteScreen) {
       Navigator.of(context).push(
@@ -63,7 +71,10 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
         ),
         const SizedBox(height: 16),
         NotebookMoreOptionsMenu(
-            controller: widget.newCategoryDescriptionController),
+          controller: widget.newCategoryDescriptionController,
+          setCurrentCover: handleUpdateCover,
+          currentSelectedCover: categoryCover,
+        ),
         Button(
           text: "AVANÇAR",
           onPressed: () {

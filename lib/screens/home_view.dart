@@ -226,6 +226,8 @@ class NotebookCoverThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCoverLocal = !cover.contains('http');
+
     return Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: Stack(
@@ -253,7 +255,9 @@ class NotebookCoverThumb extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(cover),
+                        image: isCoverLocal
+                            ? AssetImage(cover) as ImageProvider
+                            : NetworkImage(cover),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(

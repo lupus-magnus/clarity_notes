@@ -103,7 +103,7 @@ class UserDataProvider extends ChangeNotifier {
 
   updateCategory(String categoryId,
       {required String newName,
-      // required String newCover,
+      String? newCover,
       required String newDescription}) async {
     final categoryBox = await Hive.openBox('category');
     Map<dynamic, dynamic> selectedCategoryMap =
@@ -111,7 +111,7 @@ class UserDataProvider extends ChangeNotifier {
     categoryBox.put(categoryId, {
       ...selectedCategoryMap,
       'name': newName,
-      // 'cover': newCover,
+      'cover': newCover,
       'description': newDescription
     });
   }
