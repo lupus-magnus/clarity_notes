@@ -132,7 +132,7 @@ class CategoryQuickActions extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => WriteView(categoryId: category.id),
+                      builder: (context) => WriteView(category: category),
                     ),
                   );
                 }),
@@ -150,17 +150,17 @@ class CategoryTitleRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.folder_open),
-              const SizedBox(width: 8),
-              Text(
-                category.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+          const Icon(Icons.folder_open),
+          const SizedBox(width: 8),
+          SizedBox(
+            width: 280,
+            child: Text(
+              category.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ],
       ),

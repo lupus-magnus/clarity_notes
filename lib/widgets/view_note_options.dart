@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/button.dart';
@@ -8,9 +9,9 @@ import 'package:hello_world/widgets/heading.dart';
 
 class NoteViewOptions extends StatelessWidget {
   final Note note;
-  final String categoryId;
+  final Category category;
   const NoteViewOptions(
-      {super.key, required this.note, required this.categoryId});
+      {super.key, required this.note, required this.category});
 
   handleShareButtonPress(BuildContext context) async {
     // Copies content to clipboard
@@ -76,7 +77,7 @@ class NoteViewOptions extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => WriteView(
                       note: note,
-                      categoryId: categoryId,
+                      category: category,
                     ),
                   ),
                 );

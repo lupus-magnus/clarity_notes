@@ -33,7 +33,7 @@ class NoteView extends StatelessWidget {
               children: [
                 NoteViewQuickActions(
                   note: note,
-                  categoryId: category.id,
+                  category: category,
                 ),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
@@ -42,6 +42,43 @@ class NoteView extends StatelessWidget {
                       children: [
                         Column(
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.menu_book_rounded,
+                                      size: 22,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Caderno",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 160,
+                                  child: Text(
+                                    category.name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.end,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

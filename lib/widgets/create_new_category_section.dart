@@ -49,7 +49,7 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
     if (context.mounted && widget.redirectToWriteScreen) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => WriteView(categoryId: newCategory.id),
+          builder: (context) => WriteView(category: newCategory),
         ),
       );
     } else if (context.mounted && !widget.redirectToWriteScreen) {

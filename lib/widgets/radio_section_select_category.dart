@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/write_view.dart';
 import 'package:hello_world/widgets/button.dart';
@@ -25,9 +26,12 @@ class _RadioSelectCategoryState extends State<RadioSelectCategory> {
 
   void handleButtonPress() {
     if (categoryId != null) {
+      final categories = context.watch<UserDataProvider>().getCategories;
+      final selectedCategory =
+          categories.firstWhere((category) => category.id == categoryId);
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => WriteView(categoryId: categoryId as String),
+          builder: (context) => WriteView(category: selectedCategory),
         ),
       );
     }

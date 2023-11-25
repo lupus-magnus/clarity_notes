@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hello_world/models/category.dart';
 
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
+import 'package:hello_world/widgets/category_cover.dart';
 
 import 'package:hello_world/widgets/custom_app_bar.dart';
 
 import 'package:provider/provider.dart';
 
 class WriteView extends StatelessWidget {
-  final String categoryId;
+  final Category category;
   final Note? note;
-  const WriteView({super.key, required this.categoryId, this.note});
+  const WriteView({super.key, required this.category, this.note});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,61 @@ class WriteView extends StatelessWidget {
             preferredSize: Size.fromHeight(60), child: CustomAppBar()),
         body: Column(
           children: <Widget>[
+            CategoryCover(pathOrUrl: category.cover),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.menu_book_rounded,
+                        size: 22,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Caderno",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 160,
+                    child: Text(
+                      category.name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 14),
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(48, 16, 48, 16),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            )
+                .animate()
+                .scaleX(
+                    delay: const Duration(milliseconds: 900),
+                    begin: 0,
+                    end: 1.2,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeInOut)
+                .then()
+              ..scaleX(
+                  begin: 1,
+                  end: 0.7,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeInOut),
             Expanded(
                 child: ListView(
               children: [
@@ -33,9 +91,6 @@ class WriteView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 48,
-                        ),
                         TextField(
                           controller: titleController,
                           decoration: const InputDecoration(
@@ -71,7 +126,7 @@ class WriteView extends StatelessWidget {
                 Provider.of<UserDataProvider>(context, listen: false);
             if (note == null) {
               dataProvider.addNoteToCategory(
-                  categoryId: categoryId,
+                  categoryId: category.id,
                   newNote: Note.create(
                       body: bodyController.text, title: titleController.text));
             } else {
@@ -82,7 +137,7 @@ class WriteView extends StatelessWidget {
                     id: note!.id,
                     createdAt: note!.createdAt,
                     updatedAt: note!.updatedAt),
-                categoryId: categoryId,
+                categoryId: category.id,
               );
             }
             Navigator.of(context).push(

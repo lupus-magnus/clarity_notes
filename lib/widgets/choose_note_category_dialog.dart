@@ -42,7 +42,8 @@ class ChooseNoteCategoryDialog extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => WriteView(
-                        categoryId: value,
+                        category: categories
+                            .firstWhere((element) => element.id == value),
                       ),
                     ),
                   );
