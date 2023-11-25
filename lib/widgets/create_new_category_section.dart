@@ -37,9 +37,13 @@ class _CreateNewCategorySectionState extends State<CreateNewCategorySection> {
     UserDataProvider dataProvider =
         Provider.of<UserDataProvider>(context, listen: false);
     String newCategoryValue = widget.newCategoryTitleController.text;
+    bool isDescriptionFilled =
+        widget.newCategoryDescriptionController.text.isNotEmpty;
     Category newCategory = await dataProvider.addCategory(
       newCategoryValue,
-      description: widget.newCategoryTitleController.text,
+      description: isDescriptionFilled
+          ? widget.newCategoryDescriptionController.text
+          : null,
       cover: categoryCover,
     );
     if (context.mounted && widget.redirectToWriteScreen) {

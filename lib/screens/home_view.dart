@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/models/category.dart';
 import 'package:hello_world/providers/user_data.dart';
+import 'package:hello_world/screens/category_view.dart';
 import 'package:hello_world/screens/create_category_setup.dart';
 import 'package:hello_world/screens/create_note_setup.dart';
 import 'package:hello_world/themes/theme.dart';
@@ -42,10 +44,8 @@ class HomeView extends StatelessWidget {
                           children: context
                               .watch<UserDataProvider>()
                               .getFavoriteCategories
-                              .map((e) => NotebookCoverThumb(
-                                    cover: e.cover,
-                                    name: e.name,
-                                    totalNotes: e.notes.length,
+                              .map((category) => NotebookCoverThumb(
+                                    category: category,
                                   ))
                               .toList()),
                     ),
@@ -154,143 +154,79 @@ class SectionHeading extends StatelessWidget {
   }
 }
 
-class NoteThumb extends StatelessWidget {
-  final String? title;
-  final String text;
-  // final String categoryName;
-
-  const NoteThumb({
-    super.key,
-    this.title,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-      child: Container(
-        height: 130,
-        width: 92,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8),
-            bottomRight: Radius.circular(8),
-          ),
-          boxShadow: [
-            BoxShadow(
-                spreadRadius: 3.0,
-                blurRadius: 3.0,
-                color: Color.fromRGBO(0, 0, 0, 0.15),
-                offset: Offset(4, 4))
-          ],
-        ),
-        child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (title != null)
-                      Text(
-                        title!,
-                        style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    if (title != null)
-                      const SizedBox(
-                        height: 4,
-                      ),
-                    Text(
-                      text,
-                      style: const TextStyle(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 4,
-                    )
-                  ],
-                ),
-              ],
-            )),
-      ),
-    );
-  }
-}
-
 class NotebookCoverThumb extends StatelessWidget {
-  final String name;
-  final String cover;
-  final int totalNotes;
-
-  const NotebookCoverThumb({
-    super.key,
-    required this.cover,
-    required this.name,
-    required this.totalNotes,
-  });
+  final Category category;
+  const NotebookCoverThumb({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
-    final isCoverLocal = !cover.contains('http');
+    final isCoverLocal = !category.cover.contains('http');
+    final int totalNotes = category.notes.length;
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: Stack(
           children: [
-            Container(
-              height: 130,
-              width: 92,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryView(category: category),
+                  ),
+                );
+              },
+              child: Container(
+                height: 130,
+                width: 92,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 3.0,
+                        blurRadius: 3.0,
+                        color: Color.fromRGBO(0, 0, 0, 0.15),
+                        offset: Offset(4, 4))
+                  ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: 3.0,
-                      blurRadius: 3.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.15),
-                      offset: Offset(4, 4))
-                ],
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: isCoverLocal
-                            ? AssetImage(cover) as ImageProvider
-                            : NetworkImage(cover),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: isCoverLocal
+                              ? AssetImage(category.cover) as ImageProvider
+                              : NetworkImage(category.cover),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(8),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                category.name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
                             ),
-                          ),
-                        ]),
-                  )
-                ],
+                          ]),
+                    )
+                  ],
+                ),
               ),
             ),
             Positioned(
