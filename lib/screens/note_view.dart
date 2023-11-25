@@ -9,11 +9,30 @@ import 'package:hello_world/widgets/custom_app_bar.dart';
 
 import 'package:hello_world/widgets/note_view_quick_actions.dart';
 
-class NoteView extends StatelessWidget {
+class NoteView extends StatefulWidget {
   final Note note;
   final Category category;
 
   const NoteView({super.key, required this.note, required this.category});
+
+  @override
+  State<NoteView> createState() => _NoteViewState();
+}
+
+class _NoteViewState extends State<NoteView> {
+  bool isPinned = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isPinned = widget.note.pinned;
+  }
+
+  handleSetIsPinned(bool updatedIsPinned) {
+    setState(() {
+      isPinned = updatedIsPinned;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +43,7 @@ class NoteView extends StatelessWidget {
         color: const Color.fromRGBO(237, 237, 237, 1),
         child: Column(
           children: <Widget>[
-            CategoryCover(pathOrUrl: category.cover),
+            CategoryCover(pathOrUrl: widget.category.cover),
             const SizedBox(
               height: 24,
             ),
@@ -32,8 +51,10 @@ class NoteView extends StatelessWidget {
                 child: ListView(
               children: [
                 NoteViewQuickActions(
-                  note: note,
-                  category: category,
+                  note: widget.note,
+                  category: widget.category,
+                  handleSetIsPinned: handleSetIsPinned,
+                  isPinned: isPinned,
                 ),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 64),
@@ -65,7 +86,7 @@ class NoteView extends StatelessWidget {
                                 SizedBox(
                                   width: 160,
                                   child: Text(
-                                    category.name,
+                                    widget.category.name,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14),
@@ -100,7 +121,7 @@ class NoteView extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  note.getCreatedAtInFormattedDateTime(),
+                                  widget.note.getCreatedAtInFormattedDateTime(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14),
@@ -131,7 +152,7 @@ class NoteView extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  note.getUpdatedAtInFormattedDateTime(),
+                                  widget.note.getUpdatedAtInFormattedDateTime(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14),
@@ -169,7 +190,7 @@ class NoteView extends StatelessWidget {
                               end: 0.7,
                               duration: const Duration(milliseconds: 600),
                               curve: Curves.easeInOut),
-                        if (note.pinned)
+                        if (isPinned)
                           const Padding(
                               padding: EdgeInsets.only(bottom: 8),
                               child: Row(
@@ -189,7 +210,7 @@ class NoteView extends StatelessWidget {
                                 ],
                               )).animate(delay: 2300.ms).fadeIn(),
                         Text(
-                          note.title ?? '',
+                          widget.note.title ?? '',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 20),
                           textAlign: TextAlign.left,
@@ -207,7 +228,7 @@ class NoteView extends StatelessWidget {
                         Container(
                                 constraints: const BoxConstraints(minHeight: 240),
                                 child: Text(
-                                  note.body,
+                                  widget.note.body,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
                                     fontSize: 16,
