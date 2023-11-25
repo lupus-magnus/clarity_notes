@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
 
 import 'package:hello_world/models/note.dart';
@@ -28,6 +29,60 @@ class WriteView extends StatelessWidget {
         body: Column(
           children: <Widget>[
             CategoryCover(pathOrUrl: category.cover),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.menu_book_rounded,
+                        size: 22,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Caderno",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 160,
+                    child: Text(
+                      category.name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 14),
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(48, 16, 48, 16),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            )
+                .animate()
+                .scaleX(
+                    delay: const Duration(milliseconds: 900),
+                    begin: 0,
+                    end: 1.2,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeInOut)
+                .then()
+              ..scaleX(
+                  begin: 1,
+                  end: 0.7,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeInOut),
             Expanded(
                 child: ListView(
               children: [
@@ -36,9 +91,6 @@ class WriteView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 48,
-                        ),
                         TextField(
                           controller: titleController,
                           decoration: const InputDecoration(
