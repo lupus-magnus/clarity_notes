@@ -8,7 +8,13 @@ import 'package:hello_world/utils/format_datetime.dart';
 class CategoryNote extends StatelessWidget {
   final Note note;
   final Category category;
-  const CategoryNote({super.key, required this.note, required this.category});
+  final bool displayNotebookName;
+  const CategoryNote({
+    super.key,
+    required this.note,
+    required this.category,
+    this.displayNotebookName = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,7 @@ class CategoryNote extends StatelessWidget {
                   Text(
                     note.body,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 7,
+                    maxLines: displayNotebookName ? 6 : 7,
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.w500),
                   )
@@ -66,25 +72,51 @@ class CategoryNote extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 16,
-            left: 8,
-            child: Row(
-              children: [
-                Icon(Icons.calendar_month_outlined,
-                    size: 12, color: themeColors['mutedText']),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  getFormattedDateTime(note.createdAt),
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w300,
-                      color: themeColors['mutedText']),
-                )
-              ],
-            ),
-          )
+              bottom: 16,
+              left: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (displayNotebookName)
+                    Row(
+                      children: [
+                        Icon(Icons.menu_book_rounded,
+                            size: 12, color: themeColors['mutedText']),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            category.name,
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w300,
+                                color: themeColors['mutedText']),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      ],
+                    ),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month_outlined,
+                          size: 12, color: themeColors['mutedText']),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        getFormattedDateTime(note.createdAt),
+                        style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            color: themeColors['mutedText']),
+                      )
+                    ],
+                  ),
+                ],
+              ))
         ],
       ),
     );

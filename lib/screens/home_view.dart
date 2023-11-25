@@ -87,7 +87,10 @@ class HomeView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 8),
                                   child: CategoryNote(
-                                      note: e.note, category: e.category)),
+                                    note: e.note,
+                                    category: e.category,
+                                    displayNotebookName: true,
+                                  )),
                             )
                             .toList(),
                       ),
