@@ -3,6 +3,13 @@ import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+class NoteFromCategory {
+  final Note note;
+  final Category category;
+
+  NoteFromCategory({required this.category, required this.note});
+}
+
 class UserDataProvider extends ChangeNotifier {
   late List<Category> categories = [];
   late List<Category> favoriteCategories = [];
@@ -57,22 +64,39 @@ class UserDataProvider extends ChangeNotifier {
     return favorites;
   }
 
-  List<Note> get getRecentNotes {
+  List<NoteFromCategory> get getRecentNotes {
     final categoryBox = Hive.box('category');
     final categoryMaps = categoryBox.values;
     final List<Category> categoryInstances = categoryMaps
         .map((categoryMap) => Category.fromMap(categoryMap))
         .toList();
-    final List<Note> allNotes = categoryInstances
-        .map(
-          (category) => category.notes,
-        )
+
+    // final List<Note> allNotes = categoryInstances
+    //     .map(
+    //       (category) => category.notes,
+    //       // (category)
+    //     )
+    //     .toList()
+    //     .expand((x) => x)
+    //     .toList();
+    // allNotes.sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
+    // final mostRecent5Notes = allNotes.take(5).toList();
+
+    final List<NoteFromCategory> notesFromCategories = categoryInstances
+        .map((category) {
+          final List<NoteFromCategory> notesFromCategory = [];
+          for (var note in category.notes) {
+            NoteFromCategory noteFromCategory =
+                NoteFromCategory(category: category, note: note);
+            notesFromCategory.add(noteFromCategory);
+          }
+          return notesFromCategory;
+        })
         .toList()
-        .expand((x) => x)
+        .expand((element) => element)
         .toList();
-    allNotes.sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
-    final mostRecent5Notes = allNotes.take(5).toList();
-    return mostRecent5Notes;
+
+    return notesFromCategories;
   }
 
   Future<bool> toggleFavoriteCategory(String categoryId) async {
@@ -103,7 +127,7 @@ class UserDataProvider extends ChangeNotifier {
 
   updateCategory(String categoryId,
       {required String newName,
-      // required String newCover,
+      String? newCover,
       required String newDescription}) async {
     final categoryBox = await Hive.openBox('category');
     Map<dynamic, dynamic> selectedCategoryMap =
@@ -111,7 +135,7 @@ class UserDataProvider extends ChangeNotifier {
     categoryBox.put(categoryId, {
       ...selectedCategoryMap,
       'name': newName,
-      // 'cover': newCover,
+      'cover': newCover,
       'description': newDescription
     });
   }

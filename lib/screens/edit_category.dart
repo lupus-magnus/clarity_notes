@@ -21,6 +21,20 @@ class EditCategory extends StatefulWidget {
 }
 
 class _EditCategoryState extends State<EditCategory> {
+  String? currentCover;
+
+  @override
+  void initState() {
+    super.initState();
+    currentCover = widget.category.cover;
+  }
+
+  handleUpdateCover(String newCover) {
+    setState(() {
+      currentCover = newCover;
+    });
+  }
+
   handleEditButtonPress(
     BuildContext context, {
     required String newName,
@@ -31,8 +45,9 @@ class _EditCategoryState extends State<EditCategory> {
         Provider.of<UserDataProvider>(context, listen: false);
     dataProvider.updateCategory(
       widget.category.id,
-      newName: newName, newDescription: newDescription,
-      // newCover: newCover
+      newName: newName,
+      newDescription: newDescription,
+      newCover: currentCover,
     );
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -65,7 +80,11 @@ class _EditCategoryState extends State<EditCategory> {
                   const SizedBox(height: 16),
                   InputText(controller: controller, onChanged: (value) {}),
                   const SizedBox(height: 16),
-                  NotebookMoreOptionsMenu(controller: descriptionController),
+                  NotebookMoreOptionsMenu(
+                    controller: descriptionController,
+                    currentSelectedCover: currentCover,
+                    setCurrentCover: handleUpdateCover,
+                  ),
                   const SizedBox(height: 16),
                   Button(
                       text: "SALVAR",

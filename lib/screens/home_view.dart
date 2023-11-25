@@ -4,6 +4,7 @@ import 'package:hello_world/screens/create_category_setup.dart';
 import 'package:hello_world/screens/create_note_setup.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/widgets/bottom_navbar.dart';
+import 'package:hello_world/widgets/category_note_thumb.dart';
 import 'package:hello_world/widgets/custom_app_bar.dart';
 
 import 'package:hello_world/widgets/notebook_cover.dart';
@@ -27,40 +28,8 @@ class HomeView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const SectionHeading(text: "Notas recentes"),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const CreateNoteSetup(),
-                              ),
-                            )
-                          },
-                          child: const Icon(
-                            Icons.maps_ugc_rounded,
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 130,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: context
-                            .watch<UserDataProvider>()
-                            .getRecentNotes
-                            .map(
-                              (e) => NoteThumb(text: e.body, title: e.title),
-                            )
-                            .toList(),
-                      ),
-                    ),
                     const SizedBox(
-                      height: 48,
+                      height: 24,
                     ),
                     if (context
                         .watch<UserDataProvider>()
@@ -85,8 +54,46 @@ class HomeView extends StatelessWidget {
                         .getFavoriteCategories
                         .isNotEmpty)
                       const SizedBox(
-                        height: 48,
+                        height: 32,
                       ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SectionHeading(text: "Notas recentes"),
+                        TextButton(
+                          onPressed: () => {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const CreateNoteSetup(),
+                              ),
+                            )
+                          },
+                          child: const Icon(
+                            Icons.maps_ugc_rounded,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 226,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: context
+                            .watch<UserDataProvider>()
+                            .getRecentNotes
+                            .map(
+                              (e) => Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: CategoryNote(
+                                      note: e.note, category: e.category)),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -226,6 +233,8 @@ class NotebookCoverThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCoverLocal = !cover.contains('http');
+
     return Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: Stack(
@@ -253,7 +262,9 @@ class NotebookCoverThumb extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(cover),
+                        image: isCoverLocal
+                            ? AssetImage(cover) as ImageProvider
+                            : NetworkImage(cover),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/widgets/heading.dart';
 import 'package:hello_world/widgets/input_text.dart';
+import 'package:hello_world/widgets/pexels_menu.dart';
 
 class NotebookMoreOptionsMenu extends StatefulWidget {
   final TextEditingController controller;
-  const NotebookMoreOptionsMenu({super.key, required this.controller});
+  final String? currentSelectedCover;
+  final Function(String newCover) setCurrentCover;
+  const NotebookMoreOptionsMenu({
+    super.key,
+    required this.controller,
+    this.currentSelectedCover,
+    required this.setCurrentCover,
+  });
 
   @override
   State<NotebookMoreOptionsMenu> createState() =>
@@ -13,6 +21,12 @@ class NotebookMoreOptionsMenu extends StatefulWidget {
 
 class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
   bool showMoreOptions = false;
+
+  void handleSetCover(String newCover) {
+    setState(() {
+      widget.setCurrentCover(newCover);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +62,13 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                         height: 16,
                       ),
                       OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => PexelsMenu(
+                                      handleSetCover: handleSetCover,
+                                    ));
+                          },
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.black),
@@ -71,16 +91,34 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                           ))
                     ],
                   ),
-                  Container(
-                    width: 80,
-                    height: 80,
-                    color: Colors.white,
-                    child: const Center(
-                        child: Text(
-                      "?",
-                      style: TextStyle(fontSize: 32),
-                    )),
-                  )
+                  widget.currentSelectedCover == null
+                      ? Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.white,
+                          child: const Center(
+                              child: Text(
+                            "?",
+                            style: TextStyle(fontSize: 32),
+                          )),
+                        )
+                      : Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: widget.currentSelectedCover!
+                                      .contains('https')
+                                  ? NetworkImage(widget.currentSelectedCover!)
+                                  : AssetImage(widget.currentSelectedCover!)
+                                      as ImageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(8),
+                            ),
+                          ),
+                        )
                 ],
               ),
             )

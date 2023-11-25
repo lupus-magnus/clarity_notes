@@ -47,7 +47,9 @@ class NotebookCover extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(category.cover),
+                        image: category.cover.contains('http')
+                            ? NetworkImage(category.cover)
+                            : AssetImage(category.cover) as ImageProvider,
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(
