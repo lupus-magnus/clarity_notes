@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/home_view.dart';
@@ -9,9 +10,9 @@ import 'package:provider/provider.dart';
 
 class NoteViewQuickActions extends StatelessWidget {
   final Note note;
-  final String categoryId;
+  final Category category;
   const NoteViewQuickActions(
-      {super.key, required this.note, required this.categoryId});
+      {super.key, required this.note, required this.category});
 
   handleTapDelete(BuildContext context) {
     UserDataProvider dataProvider =
@@ -46,7 +47,7 @@ class NoteViewQuickActions extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                   dataProvider.removeNote(
-                      noteId: note.id, categoryId: categoryId);
+                      noteId: note.id, categoryId: category.id);
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const HomeView(),
@@ -67,7 +68,7 @@ class NoteViewQuickActions extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => WriteView(
           note: note,
-          categoryId: categoryId,
+          category: category,
         ),
       ),
     );
@@ -92,7 +93,7 @@ class NoteViewQuickActions extends StatelessWidget {
             label: "Fixar",
             icon: const Icon(Icons.push_pin_outlined),
             onTap: () {
-              dataProvider.togglePinNote(note.id, categoryId);
+              dataProvider.togglePinNote(note.id, category.id);
             },
           ),
           QuickActionButton(
