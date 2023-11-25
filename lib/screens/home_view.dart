@@ -84,7 +84,8 @@ class HomeView extends StatelessWidget {
                             .getRecentNotes
                             .map(
                               (e) => Padding(
-                                  padding: const EdgeInsets.only(right: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
                                   child: CategoryNote(
                                       note: e.note, category: e.category)),
                             )
