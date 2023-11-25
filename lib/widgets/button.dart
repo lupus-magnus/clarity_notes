@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class Button extends StatelessWidget {
   final bool outlined;
   final bool disabled;
+  final bool highlight;
   final String text;
   final void Function()? onPressed;
   final Icon? icon;
@@ -11,6 +13,7 @@ class Button extends StatelessWidget {
       {super.key,
       this.outlined = false,
       this.disabled = false,
+      this.highlight = false,
       this.icon,
       required this.text,
       required this.onPressed});
@@ -22,6 +25,13 @@ class Button extends StatelessWidget {
         text: text,
         icon: icon,
         onPressed: onPressed,
+      );
+    } else if (highlight) {
+      return CustomHighlightedButton(
+        text: text,
+        onPressed: onPressed,
+        icon: icon,
+        disabled: disabled,
       );
     } else {
       return CustomButton(
@@ -99,6 +109,46 @@ class CustomButton extends Button {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomHighlightedButton extends Button {
+  const CustomHighlightedButton(
+      {super.key,
+      required super.text,
+      required super.onPressed,
+      required super.icon,
+      required super.disabled});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: ElevatedButton(
+        onPressed: disabled ? null : onPressed,
+        style: disabled
+            ? disabledStyle
+            : ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4)))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) icon!,
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ],
+        ),
+      )
+          .animate(
+            onPlay: (controller) => controller.repeat(),
+          )
+          .shimmer(duration: 1000.ms, delay: 3000.ms),
     );
   }
 }
