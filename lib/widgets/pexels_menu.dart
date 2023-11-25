@@ -86,41 +86,41 @@ class _PexelsMenuState extends State<PexelsMenu> {
                                   height: 120,
                                 ),
                               )
-                            : SingleChildScrollView(
-                                child: Column(
-                                    children: images
-                                        .map((image) => Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8, horizontal: 0),
-                                            child: InkWell(
-                                              onTap: () => setState(() {
-                                                selectedImage = image;
-                                              }),
-                                              child: Ink(
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: NetworkImage(
-                                                            image)),
-                                                    border: Border.all(
-                                                        color: selectedImage ==
-                                                                image
-                                                            ? Colors.black
-                                                            : Colors
-                                                                .transparent,
-                                                        width: 4)),
-                                              ),
-                                            )))
-                                        .toList()),
+                            : ListView(
+                                children: [
+                                  ...images
+                                      .map((image) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 0),
+                                          child: InkWell(
+                                            onTap: () => setState(() {
+                                              selectedImage = image;
+                                            }),
+                                            child: Ink(
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image:
+                                                          NetworkImage(image)),
+                                                  border: Border.all(
+                                                      color: selectedImage ==
+                                                              image
+                                                          ? Colors.black
+                                                          : Colors.transparent,
+                                                      width: 4)),
+                                            ),
+                                          )))
+                                      .toList(),
+                                  Button(
+                                      text: "PRONTO",
+                                      onPressed: () {
+                                        widget.handleSetCover(selectedImage);
+                                        Navigator.pop(context);
+                                      })
+                                ],
                               ),
                   ),
-                  Button(
-                      text: "PRONTO",
-                      onPressed: () {
-                        widget.handleSetCover(selectedImage);
-                        Navigator.pop(context);
-                      })
                 ],
               ))),
     );
