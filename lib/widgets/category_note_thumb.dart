@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
+import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/note_view.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/utils/format_datetime.dart';
+import 'package:provider/provider.dart';
 
-class CategoryNote extends StatelessWidget {
+class CategoryNote extends StatefulWidget {
   final Note note;
   final Category category;
   final bool displayNotebookName;
+
   const CategoryNote({
     super.key,
     required this.note,
@@ -17,14 +20,36 @@ class CategoryNote extends StatelessWidget {
   });
 
   @override
+  State<CategoryNote> createState() => _CategoryNoteState();
+}
+
+class _CategoryNoteState extends State<CategoryNote> {
+  bool pinned = false;
+
+  @override
+  void initState() {
+    pinned = widget.note.pinned;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => NoteView(note: note, category: category),
+            builder: (context) =>
+                NoteView(note: widget.note, category: widget.category),
           ),
         );
+      },
+      onDoubleTap: () async {
+        bool updatedPinStatus = await context
+            .read<UserDataProvider>()
+            .togglePinNote(widget.note.id, widget.category.id);
+        setState(() {
+          pinned = updatedPinStatus;
+        });
       },
       child: Stack(
         children: [
@@ -51,19 +76,19 @@ class CategoryNote extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (note.title != null)
+                  if (widget.note.title != null)
                     Text(
-                      note.title!,
+                      widget.note.title!,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w600),
                     ),
-                  if (note.title != null) const SizedBox(height: 8),
+                  if (widget.note.title != null) const SizedBox(height: 8),
                   Text(
-                    note.body,
+                    widget.note.body,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: displayNotebookName ? 6 : 7,
+                    maxLines: widget.displayNotebookName ? 6 : 7,
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.w500),
                   )
@@ -77,7 +102,7 @@ class CategoryNote extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (displayNotebookName)
+                  if (widget.displayNotebookName)
                     Row(
                       children: [
                         Icon(Icons.menu_book_rounded,
@@ -88,7 +113,7 @@ class CategoryNote extends StatelessWidget {
                         SizedBox(
                           width: 80,
                           child: Text(
-                            category.name,
+                            widget.category.name,
                             style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w300,
@@ -107,7 +132,7 @@ class CategoryNote extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        getFormattedDateTime(note.createdAt),
+                        getFormattedDateTime(widget.note.createdAt),
                         style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w300,
@@ -116,7 +141,14 @@ class CategoryNote extends StatelessWidget {
                     ],
                   ),
                 ],
-              ))
+              )),
+          if (pinned)
+            Positioned(
+              top: 16,
+              right: 8,
+              child: Icon(Icons.push_pin_outlined,
+                  size: 16, color: themeColors['disabled']),
+            ),
         ],
       ),
     );

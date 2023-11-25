@@ -100,10 +100,9 @@ class CategoryQuickActions extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QuickActionButton(
-                label: isFavorite ? "FAVORITADO\n(remover)" : "FAVORITAR",
-                icon: Icon(isFavorite
-                    ? Icons.not_interested_sharp
-                    : Icons.star_border_outlined),
+                label: isFavorite ? "FAVORITADO" : "FAVORITAR",
+                icon:
+                    Icon(isFavorite ? Icons.star : Icons.star_border_outlined),
                 onTap: () async {
                   bool newIsFavorite = await context
                       .read<UserDataProvider>()

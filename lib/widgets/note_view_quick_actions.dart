@@ -11,12 +11,19 @@ import 'package:provider/provider.dart';
 class NoteViewQuickActions extends StatelessWidget {
   final Note note;
   final Category category;
-  const NoteViewQuickActions(
-      {super.key, required this.note, required this.category});
+
+  final bool isPinned;
+  final Function(bool updatedIsPinned) handleSetIsPinned;
+
+  const NoteViewQuickActions({
+    super.key,
+    required this.note,
+    required this.category,
+    required this.handleSetIsPinned,
+    required this.isPinned,
+  });
 
   handleTapDelete(BuildContext context) {
-    UserDataProvider dataProvider =
-        Provider.of<UserDataProvider>(context, listen: false);
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => Dialog(
@@ -46,8 +53,9 @@ class NoteViewQuickActions extends StatelessWidget {
               FilledButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  dataProvider.removeNote(
-                      noteId: note.id, categoryId: category.id);
+                  context
+                      .read<UserDataProvider>()
+                      .removeNote(noteId: note.id, categoryId: category.id);
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const HomeView(),
@@ -82,18 +90,21 @@ class NoteViewQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider dataProvider =
-        Provider.of<UserDataProvider>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           QuickActionButton(
-            label: "Fixar",
-            icon: const Icon(Icons.push_pin_outlined),
-            onTap: () {
-              dataProvider.togglePinNote(note.id, category.id);
+            label: isPinned ? "Fixada" : "Fixar",
+            icon: isPinned
+                ? const Icon(Icons.push_pin)
+                : const Icon(Icons.push_pin_outlined),
+            onTap: () async {
+              bool updatedPinStatus = await context
+                  .read<UserDataProvider>()
+                  .togglePinNote(note.id, category.id);
+              handleSetIsPinned(updatedPinStatus);
             },
           ),
           QuickActionButton(

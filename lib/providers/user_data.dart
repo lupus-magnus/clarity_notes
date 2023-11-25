@@ -216,8 +216,8 @@ class UserDataProvider extends ChangeNotifier {
       "notes": updatedCategoryNotes
     };
     await categoryBox.put(categoryId, updatedCategoryMap);
-
     notifyListeners();
+    return updatedNoteMap['pinned'] as bool;
   }
 
   Future<bool> getPinStatus(String noteId, String categoryId) async {
