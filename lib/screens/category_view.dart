@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
@@ -162,9 +163,19 @@ class CategoryTitleRow extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      )
+          .animate()
+          .fadeIn(delay: 300.ms, duration: 600.ms)
+          .moveX(begin: 24, end: 0, duration: 600.ms),
     );
   }
+}
+
+class IndexedNote {
+  final Note note;
+  final int index;
+
+  IndexedNote({required this.index, required this.note});
 }
 
 class NotesGridSection extends StatelessWidget {
@@ -172,6 +183,23 @@ class NotesGridSection extends StatelessWidget {
   final Category category;
   const NotesGridSection(
       {super.key, required this.notes, required this.category});
+
+  List<IndexedNote> get getIndexedNotes {
+    List<IndexedNote> indexedNotes = [];
+
+    for (int i = 0; i < notes.length; i++) {
+      Note note = notes[i];
+      int index = i;
+
+      final IndexedNote indexedNote = IndexedNote(
+        index: index,
+        note: note,
+      );
+
+      indexedNotes.add(indexedNote);
+    }
+    return indexedNotes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +210,11 @@ class NotesGridSection extends StatelessWidget {
               child: Wrap(
                   spacing: 12,
                   runSpacing: 12,
-                  children: notes
+                  children: getIndexedNotes
                       .map((e) => CategoryNote(
-                            note: e,
+                            note: e.note,
                             category: category,
+                            delayMs: 600 + 300 * e.index,
                           ))
                       .toList()))
           : Row(
