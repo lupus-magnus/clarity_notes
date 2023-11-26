@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/widgets/heading.dart';
@@ -109,11 +110,12 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                           height: 80,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: widget.currentSelectedCover!
-                                      .contains('https')
-                                  ? NetworkImage(widget.currentSelectedCover!)
-                                  : AssetImage(widget.currentSelectedCover!)
-                                      as ImageProvider,
+                              image:
+                                  widget.currentSelectedCover!.contains('https')
+                                      ? CachedNetworkImageProvider(
+                                          widget.currentSelectedCover!)
+                                      : AssetImage(widget.currentSelectedCover!)
+                                          as ImageProvider,
                               fit: BoxFit.cover,
                             ),
                             borderRadius: const BorderRadius.only(

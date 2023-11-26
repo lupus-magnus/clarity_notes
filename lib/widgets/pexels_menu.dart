@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hello_world/apis/pexels_alpha.dart';
@@ -102,7 +103,8 @@ class _PexelsMenuState extends State<PexelsMenu> {
                                                   image: DecorationImage(
                                                       fit: BoxFit.cover,
                                                       image:
-                                                          NetworkImage(image)),
+                                                          CachedNetworkImageProvider(
+                                                              image)),
                                                   border: Border.all(
                                                       color: selectedImage ==
                                                               image
