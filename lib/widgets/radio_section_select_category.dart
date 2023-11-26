@@ -26,7 +26,7 @@ class _RadioSelectCategoryState extends State<RadioSelectCategory> {
 
   void handleButtonPress() {
     if (categoryId != null) {
-      final categories = context.watch<UserDataProvider>().getCategories;
+      final categories = context.read<UserDataProvider>().getCategories;
       final selectedCategory =
           categories.firstWhere((category) => category.id == categoryId);
       Navigator.of(context).push(

@@ -168,7 +168,7 @@ class _NoteViewState extends State<NoteView> {
                                 end: 1)
                             .slideY(
                               duration: const Duration(milliseconds: 600),
-                              begin: -2,
+                              begin: 1,
                               end: 0,
                             ),
                         const Padding(
