@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/widgets/heading.dart';
 import 'package:hello_world/widgets/input_text.dart';
 import 'package:hello_world/widgets/pexels_menu.dart';
@@ -35,6 +36,7 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
       children: [
         const SizedBox(height: 24),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Heading(
               text: "Descrição do caderno (opcional)",
@@ -88,7 +90,7 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ],
-                          ))
+                          )),
                     ],
                   ),
                   widget.currentSelectedCover == null
@@ -121,6 +123,25 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                         )
                 ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    children: const [
+                      WidgetSpan(
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: Icon(Icons.info_outline_rounded, size: 14)),
+                      ),
+                      TextSpan(
+                        text:
+                            "Banco de imagens fornecido por Pexels. Todos os direitos reservados. Use termos em inglês.",
+                      ),
+                    ],
+                    style: TextStyle(color: themeColors['mutedText']),
+                  )),
             )
           ],
         )
