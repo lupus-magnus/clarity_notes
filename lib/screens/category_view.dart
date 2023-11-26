@@ -165,8 +165,8 @@ class CategoryTitleRow extends StatelessWidget {
         ],
       )
           .animate()
-          .fadeIn(delay: 300.ms, duration: 600.ms)
-          .moveX(begin: 24, end: 0, duration: 600.ms),
+          .fadeIn(delay: 300.ms, duration: 300.ms)
+          .moveX(begin: 24, end: 0, duration: 300.ms),
     );
   }
 }
@@ -214,7 +214,7 @@ class NotesGridSection extends StatelessWidget {
                       .map((e) => CategoryNote(
                             note: e.note,
                             category: category,
-                            delayMs: 600 + 300 * e.index,
+                            delayMs: 300 + 150 * e.index,
                           ))
                       .toList()))
           : Row(
