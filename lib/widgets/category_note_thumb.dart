@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/models/note.dart';
 import 'package:hello_world/providers/user_data.dart';
@@ -11,12 +12,14 @@ class CategoryNote extends StatefulWidget {
   final Note note;
   final Category category;
   final bool displayNotebookName;
+  final int? delayMs;
 
   const CategoryNote({
     super.key,
     required this.note,
     required this.category,
     this.displayNotebookName = false,
+    this.delayMs = 300,
   });
 
   @override
@@ -151,6 +154,10 @@ class _CategoryNoteState extends State<CategoryNote> {
             ),
         ],
       ),
-    );
+    )
+        .animate()
+        .fadeIn(delay: widget.delayMs!.ms)
+        .moveX(begin: 24, end: 0, delay: widget.delayMs!.ms)
+        .moveY(begin: 24, end: 0, delay: widget.delayMs!.ms);
   }
 }

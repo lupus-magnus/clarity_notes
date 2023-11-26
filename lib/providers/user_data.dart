@@ -10,6 +10,24 @@ class NoteFromCategory {
   NoteFromCategory({required this.category, required this.note});
 }
 
+class IndexedNoteFromCategory {
+  final Note note;
+  final Category category;
+  final int index;
+
+  IndexedNoteFromCategory({
+    required this.category,
+    required this.note,
+    required this.index,
+  });
+}
+
+class IndexedCategory {
+  final Category category;
+  final int index;
+  IndexedCategory({required this.category, required this.index});
+}
+
 class UserDataProvider extends ChangeNotifier {
   late List<Category> categories = [];
   late List<Category> favoriteCategories = [];
@@ -50,6 +68,23 @@ class UserDataProvider extends ChangeNotifier {
     return categoriesWithNotesByDate;
   }
 
+  List<IndexedCategory> get getIndexedCategories {
+    final categories = getCategories;
+    List<IndexedCategory> indexedCategories = [];
+
+    for (int i = 0; i < categories.length; i++) {
+      Category categoryInstance = categories[i];
+      int index = i;
+
+      final indexedCategory = IndexedCategory(
+        category: categoryInstance,
+        index: index,
+      );
+      indexedCategories.add(indexedCategory);
+    }
+    return indexedCategories;
+  }
+
   List<Category> get getFavoriteCategories {
     final categoryBox = Hive.box('category');
     final categoryMaps = categoryBox.values;
@@ -64,23 +99,31 @@ class UserDataProvider extends ChangeNotifier {
     return favorites;
   }
 
+  List<IndexedCategory> get getIndexedFavoriteCategories {
+    // ignore: no_leading_underscores_for_local_identifiers
+    final _categories = getFavoriteCategories;
+    List<IndexedCategory> indexedFavoriteCategories = [];
+
+    for (int i = 0; i < _categories.length; i++) {
+      Category category = _categories[i];
+      int index = i;
+
+      final IndexedCategory indexedCategory = IndexedCategory(
+        category: category,
+        index: index,
+      );
+
+      indexedFavoriteCategories.add(indexedCategory);
+    }
+    return indexedFavoriteCategories;
+  }
+
   List<NoteFromCategory> get getRecentNotes {
     final categoryBox = Hive.box('category');
     final categoryMaps = categoryBox.values;
     final List<Category> categoryInstances = categoryMaps
         .map((categoryMap) => Category.fromMap(categoryMap))
         .toList();
-
-    // final List<Note> allNotes = categoryInstances
-    //     .map(
-    //       (category) => category.notes,
-    //       // (category)
-    //     )
-    //     .toList()
-    //     .expand((x) => x)
-    //     .toList();
-    // allNotes.sort((noteA, noteB) => noteB.createdAt.compareTo(noteA.createdAt));
-    // final mostRecent5Notes = allNotes.take(5).toList();
 
     final List<NoteFromCategory> notesFromCategories = categoryInstances
         .map((category) {
@@ -97,6 +140,25 @@ class UserDataProvider extends ChangeNotifier {
         .toList();
 
     return notesFromCategories;
+  }
+
+  List<IndexedNoteFromCategory> get getIndexedRecentNotes {
+    final categorizedNotes = getRecentNotes;
+    List<IndexedNoteFromCategory> indexedRecentNotes = [];
+
+    for (int i = 0; i < categorizedNotes.length; i++) {
+      NoteFromCategory categorizedNote = categorizedNotes[i];
+      int index = i;
+
+      final indexedRecentNote = IndexedNoteFromCategory(
+        category: categorizedNote.category,
+        note: categorizedNote.note,
+        index: index,
+      );
+
+      indexedRecentNotes.add(indexedRecentNote);
+    }
+    return indexedRecentNotes;
   }
 
   Future<bool> toggleFavoriteCategory(String categoryId) async {

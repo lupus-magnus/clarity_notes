@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
 import 'package:hello_world/providers/user_data.dart';
 import 'package:hello_world/screens/category_view.dart';
@@ -49,15 +50,18 @@ class HomeView extends StatelessWidget {
                                   .getFavoriteCategories
                                   .isNotEmpty)
                                 const SectionHeading(
-                                    text: "Cadernos favoritos"),
+                                  text: "Cadernos favoritos",
+                                  delayMs: 0,
+                                ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                     children: context
                                         .watch<UserDataProvider>()
-                                        .getFavoriteCategories
-                                        .map((category) => NotebookCoverThumb(
-                                              category: category,
+                                        .getIndexedFavoriteCategories
+                                        .map((e) => NotebookCoverThumb(
+                                              category: e.category,
+                                              delayMs: 300 + 300 * e.index,
                                             ))
                                         .toList()),
                               ),
@@ -77,7 +81,9 @@ class HomeView extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const SectionHeading(
-                                        text: "Notas recentes"),
+                                      text: "Notas recentes",
+                                      delayMs: 300,
+                                    ),
                                     TextButton(
                                       onPressed: () => {
                                         Navigator.of(context).push(
@@ -104,7 +110,7 @@ class HomeView extends StatelessWidget {
                                     scrollDirection: Axis.horizontal,
                                     children: context
                                         .watch<UserDataProvider>()
-                                        .getRecentNotes
+                                        .getIndexedRecentNotes
                                         .map(
                                           (e) => Padding(
                                               padding:
@@ -115,6 +121,7 @@ class HomeView extends StatelessWidget {
                                                 note: e.note,
                                                 category: e.category,
                                                 displayNotebookName: true,
+                                                delayMs: e.index * 300,
                                               )),
                                         )
                                         .toList(),
@@ -128,7 +135,9 @@ class HomeView extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const SectionHeading(
-                                      text: "Todos os cadernos"),
+                                    text: "Todos os cadernos",
+                                    delayMs: 600,
+                                  ),
                                   TextButton(
                                     onPressed: () => {
                                       Navigator.of(context).push(
@@ -154,8 +163,11 @@ class HomeView extends StatelessWidget {
                                     runSpacing: 16,
                                     children: context
                                         .watch<UserDataProvider>()
-                                        .getCategories
-                                        .map((e) => NotebookCover(category: e))
+                                        .getIndexedCategories
+                                        .map((e) => NotebookCover(
+                                              category: e.category,
+                                              delayMs: 900 + (300 * e.index),
+                                            ))
                                         .toList()),
                               )
                             ],
@@ -170,7 +182,8 @@ class HomeView extends StatelessWidget {
 
 class SectionHeading extends StatelessWidget {
   final String text;
-  const SectionHeading({super.key, required this.text});
+  final int? delayMs;
+  const SectionHeading({super.key, required this.text, this.delayMs = 300});
 
   @override
   Widget build(BuildContext context) {
@@ -180,13 +193,22 @@ class SectionHeading extends StatelessWidget {
       maxLines: 1,
       style: const TextStyle(
           fontSize: 18, fontFamily: 'Poppins', fontWeight: FontWeight.w700),
-    );
+    )
+        .animate()
+        .fadeIn(delay: delayMs!.ms)
+        .moveX(begin: 24, end: 0, delay: delayMs!.ms);
   }
 }
 
 class NotebookCoverThumb extends StatelessWidget {
   final Category category;
-  const NotebookCoverThumb({super.key, required this.category});
+  final int? delayMs;
+
+  const NotebookCoverThumb({
+    super.key,
+    required this.category,
+    this.delayMs = 300,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -284,6 +306,6 @@ class NotebookCoverThumb extends StatelessWidget {
                   ),
                 ))
           ],
-        ));
+        )).animate().fadeIn(delay: delayMs!.ms);
   }
 }
