@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
@@ -252,7 +253,7 @@ class NotebookCoverThumb extends StatelessWidget {
                         image: DecorationImage(
                           image: isCoverLocal
                               ? AssetImage(category.cover) as ImageProvider
-                              : NetworkImage(category.cover),
+                              : CachedNetworkImageProvider(category.cover),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: const BorderRadius.only(

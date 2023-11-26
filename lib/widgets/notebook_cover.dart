@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hello_world/models/category.dart';
@@ -49,7 +50,7 @@ class NotebookCover extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: category.cover.contains('http')
-                                ? NetworkImage(category.cover)
+                                ? CachedNetworkImageProvider(category.cover)
                                 : AssetImage(category.cover) as ImageProvider,
                             fit: BoxFit.cover,
                           ),
