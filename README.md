@@ -1,16 +1,41 @@
-# hello_world
+Política de Privacidade do Klaritat
 
-A new Flutter project.
+1. Coleta de Informações Pessoais:
 
-## Getting Started
+   O Klaritat não coleta dados do usuário.
 
-This project is a starting point for a Flutter application.
+2. Uso de Informações Pessoais:
 
-A few resources to get you started if this is your first Flutter project:
+   Como não coletamos dados, nenhuma informação será compartilhada com terceiros ou utilizada de qualquer forma.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. Segurança:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   O Klaritat não armazena quaisquer dados do usuário, eliminando o risco de vazamento de informações pessoais.
+
+4. Cookies e Tecnologias Semelhantes:
+
+   O aplicativo não utiliza cookies.
+
+5. Atualizações na Política de Privacidade:
+
+   Os usuários serão informados de alterações na política de privacidade por meio dos comentários da versão durante as atualizações do aplicativo.
+
+6. Direitos dos Usuários:
+
+   Não são armazenados dados que necessitem ser acessados ou gerenciados.
+
+7. Idade Mínima:
+
+   Não há uma idade mínima para a utilização do Klaritat.
+
+8. Contato:
+
+   Para tirar dúvidas ou obter mais informações, entre em contato conosco pelo e-mail: cardoso.dev.tech@gmail.com.
+
+9. Riscos à Privacidade:
+
+   O Klaritat não provê qualquer risco à privacidade do usuário e nem coleta suas informações.
+
+10. Informações Adicionais:
+
+    Klaritat é um aplicativo de cadernos digitais que permite a criação de blocos de notas categorizadas.
