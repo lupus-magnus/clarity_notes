@@ -139,6 +139,9 @@ class UserDataProvider extends ChangeNotifier {
         .expand((element) => element)
         .toList();
 
+    notesFromCategories.sort(
+        (itemA, itemB) => itemB.note.updatedAt.compareTo(itemA.note.updatedAt));
+
     return notesFromCategories;
   }
 
