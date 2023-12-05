@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_world/themes/theme.dart';
 import 'package:hello_world/widgets/heading.dart';
 import 'package:hello_world/widgets/input_text.dart';
-import 'package:hello_world/widgets/pexels_menu.dart';
+import 'package:hello_world/widgets/notebook_cover_menu.dart';
 
 class NotebookMoreOptionsMenu extends StatefulWidget {
   final TextEditingController controller;
@@ -23,6 +23,16 @@ class NotebookMoreOptionsMenu extends StatefulWidget {
 
 class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
   bool showMoreOptions = false;
+
+  Future handleDisplayBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.white,
+      showDragHandle: true,
+      builder: (context) => NotebookCoverMenu(handleSetCover: handleSetCover),
+    );
+  }
 
   void handleSetCover(String newCover) {
     setState(() {
@@ -66,11 +76,7 @@ class _NotebookMoreOptionsMenuState extends State<NotebookMoreOptionsMenu> {
                       ),
                       OutlinedButton(
                           onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => PexelsMenu(
-                                      handleSetCover: handleSetCover,
-                                    ));
+                            handleDisplayBottomSheet(context);
                           },
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
