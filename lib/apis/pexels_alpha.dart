@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 String baseUrl = "https://api.pexels.com/v1/";
 
 Future<dynamic> getSearchImagesAlpha(String search) async {
-  String url = "$baseUrl/search?query=$search&orientation=landscape&per_page=5";
+  String url = "$baseUrl/search?query=$search&orientation=landscape&per_page=3";
   final uri = Uri.parse(url);
   final response = await http.get(
     uri,
