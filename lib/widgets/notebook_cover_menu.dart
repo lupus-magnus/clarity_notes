@@ -1,12 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hello_world/apis/pexels_alpha.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
 
+import 'package:hello_world/apis/pexels_alpha.dart';
 import 'package:hello_world/widgets/button.dart';
 import 'package:hello_world/widgets/heading.dart';
 import 'package:hello_world/widgets/input_text.dart';
 import 'package:hello_world/widgets/or_divider.dart';
+import 'package:uuid/uuid.dart';
 
 class NotebookCoverMenu extends StatefulWidget {
   final Function handleSetCover;
@@ -19,6 +24,7 @@ class NotebookCoverMenu extends StatefulWidget {
 class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
   TextEditingController controller = TextEditingController(text: "");
   bool isFetching = false;
+  bool isUploadingImage = false;
   List<dynamic> images = [];
 
   handleSearch() async {
@@ -38,6 +44,34 @@ class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
         });
       }
     }
+  }
+
+  handlePickImageFromGallery(BuildContext context) async {
+    UploadTask? uploadTask;
+    // Open file explorer and select image from gallery
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    final file = File(returnedImage.path);
+
+    // Upload file to Firebase Storage
+    setState(() {
+      isUploadingImage = true;
+    });
+    final bucket = FirebaseStorage.instance.ref();
+    final bucketImagesDir = bucket.child('images');
+    final newFileName = "${const Uuid().v4()}-${returnedImage.name}";
+    final newFileRef = bucketImagesDir.child(newFileName);
+    uploadTask = newFileRef.putFile(file);
+
+    final snapshot = await uploadTask.whenComplete(() {
+      Navigator.pop(context);
+      setState(() {
+        isUploadingImage = false;
+      });
+    });
+    final url = await snapshot.ref.getDownloadURL();
+    widget.handleSetCover(url);
   }
 
   @override
@@ -104,10 +138,14 @@ class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
                                     ),
                                     const OrDivider(),
                                     Button(
-                                        text: "BUSCAR NO DISPOSITIVO",
-                                        onPressed: () {
-                                          // TODO: Search in local files...
-                                        }),
+                                      text: isUploadingImage
+                                          ? "CARREGANDO..."
+                                          : "BUSCAR NO DISPOSITIVO",
+                                      disabled: isUploadingImage,
+                                      onPressed: () {
+                                        handlePickImageFromGallery(context);
+                                      },
+                                    ),
                                   ],
                                 )
                               : SingleChildScrollView(

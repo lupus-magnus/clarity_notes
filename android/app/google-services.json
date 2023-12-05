@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "323777059081",
+    "project_id": "klaritat-2e93e",
+    "storage_bucket": "klaritat-2e93e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323777059081:android:4a77a92bc76914a09a1bd8",
+        "android_client_info": {
+          "package_name": "io.euclides.hello_world"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzLKGhiXav3dA0fppcQJvm-QLvtVsfjX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
