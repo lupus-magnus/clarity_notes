@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:hello_world/apis/pexels_alpha.dart';
@@ -27,14 +28,14 @@ class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
   bool isUploadingImage = false;
   List<dynamic> images = [];
 
-  handleSearch() async {
+  handleSearch(BuildContext context) async {
     if (controller.text.isNotEmpty) {
       setState(() {
         isFetching = true;
       });
       try {
         String query = controller.text;
-        final photos = await getSearchImagesAlpha(query);
+        final photos = await getSearchImagesAlpha(query, context);
         setState(() {
           images = photos;
         });
@@ -54,24 +55,31 @@ class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
     if (returnedImage == null) return;
     final file = File(returnedImage.path);
 
-    // Upload file to Firebase Storage
-    setState(() {
-      isUploadingImage = true;
-    });
-    final bucket = FirebaseStorage.instance.ref();
-    final bucketImagesDir = bucket.child('images');
-    final newFileName = "${const Uuid().v4()}-${returnedImage.name}";
-    final newFileRef = bucketImagesDir.child(newFileName);
-    uploadTask = newFileRef.putFile(file);
+    try {
+      // Upload file to Firebase Storage
+      setState(() {
+        isUploadingImage = true;
+      });
+      final bucket = FirebaseStorage.instance.ref();
+      final bucketImagesDir = bucket.child('images');
+      final newFileName = "${const Uuid().v4()}-${returnedImage.name}";
+      final newFileRef = bucketImagesDir.child(newFileName);
+      uploadTask = newFileRef.putFile(file);
 
-    final snapshot = await uploadTask.whenComplete(() {
-      Navigator.pop(context);
+      final snapshot = await uploadTask.whenComplete(() {});
+      final url = await snapshot.ref.getDownloadURL();
+      widget.handleSetCover(url);
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      showToast(
+          "Não foi possível realizar a operação agora.\nPor favor, tente mais tarde.",
+          context: context);
+    } finally {
       setState(() {
         isUploadingImage = false;
+        Navigator.pop(context);
       });
-    });
-    final url = await snapshot.ref.getDownloadURL();
-    widget.handleSetCover(url);
+    }
   }
 
   @override
@@ -111,7 +119,9 @@ class _NotebookCoverMenuState extends State<NotebookCoverMenu> {
                         controller: controller,
                         action: TextInputAction.search,
                         hintText: "Ex.: Science Fiction",
-                        onEdittingComplete: handleSearch,
+                        onEdittingComplete: () {
+                          handleSearch(context);
+                        },
                         onChanged: (value) {}),
                     const SizedBox(
                       height: 16,
